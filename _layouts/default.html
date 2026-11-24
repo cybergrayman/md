@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title | default: "CyberGrayMan" }}</title>
+  <style>
+    :root { color-scheme: light dark; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, sans-serif;
+      display: flex;
+      min-height: 100vh;
+    }
+    aside {
+      width: 240px;
+      flex-shrink: 0;
+      padding: 24px 18px;
+      border-right: 1px solid #8884;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+    aside h2 {
+      font-size: 1.05rem;
+      margin: 0 0 14px;
+    }
+    aside ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    aside li {
+      margin-bottom: 10px;
+    }
+    aside a {
+      text-decoration: none;
+    }
+    aside a:hover {
+      text-decoration: underline;
+    }
+    main {
+      flex: 1;
+      max-width: 820px;
+      padding: 32px 40px 80px;
+    }
+    pre {
+      padding: 14px;
+      overflow-x: auto;
+      border-radius: 6px;
+      background: #8882;
+    }
+    code { font-family: monospace; }
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 8px 14px;
+      border: 1px solid #8885;
+      border-radius: 6px;
+      background: Canvas;
+      color: CanvasText;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back-to-top:hover {
+      border-color: currentColor;
+    }
+    @media (max-width: 720px) {
+      body { flex-direction: column; }
+      aside {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid #8884;
+      }
+      main { padding: 24px 20px 80px; }
+    }
+  </style>
+</head>
+<body id="top">
+  <aside>
+    <h2>CyberGrayMan</h2>
+    <ul>
+      <li><a href="{{ '/' | relative_url }}">Home</a></li>
+      <li><a href="{{ '/SOC%20Guideline.html' | relative_url }}">SOC Guideline</a></li>
+      <li><a href="{{ '/aws-investigation.html' | relative_url }}">AWS Investigation</a></li>
+      <li><a href="{{ '/splunk_dfir_ctf_investigation.html' | relative_url }}">Splunk DFIR CTF</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <a href="#top" class="back-to-top">↑ Top</a>
+</body>
+</html>
