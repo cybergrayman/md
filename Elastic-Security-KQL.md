@@ -6,6 +6,64 @@ A practical, investigation-ordered reference
 
 ---
 
+## Quick start: use Kibana during a CTF
+
+**Mental model**
+- **Elasticsearch** stores and searches the indexed events.
+- **Kibana** is the interface you use to explore those events.
+- **Data view** selects which indices/data streams are searched (for example, `logs-*` or a Windows-specific view).
+- **Discover** is the fastest starting point for raw-event hunting. **Elastic Security → Timeline** is useful for correlating events across hosts, users and data sources.
+- **KQL** filters events in the search bar. **ES|QL** is a separate pipe-based query language that can filter, select columns, sort and aggregate. Do not mix their syntax.
+
+### First five minutes
+
+1. Open **Discover** and select the data view that contains the challenge logs. If results are missing, check whether the relevant indices/data streams are included.
+2. Set the time picker to the challenge window. Confirm the displayed timezone; convert timestamps to UTC when the question requests UTC.
+3. Start broad with `*`, then filter by a clue such as `host.name`, `user.name`, `source.ip`, `destination.ip` or `process.name`.
+4. Inspect one matching document in **Details / JSON**. Confirm the real field names, event IDs, provider, channel and timestamp field before building complex queries.
+5. Add useful fields as columns, sort by `@timestamp`, and open suspicious events to inspect the full document. Use the value menu on a field to filter for or exclude that value.
+6. Pivot from the event: process → parent/child process → user/host → network → file → authentication. Keep the same time window initially; widen it if the activity starts earlier or continues later.
+7. Use **Timeline** to collect related events and compare the sequence. Pin important events and record the exact timestamp, host, user, field/value and query.
+
+### Fast starting filters (KQL)
+
+```kql
+*
+```
+
+```kql
+host.name : "HOST01"
+```
+
+```kql
+user.name : "alice"
+```
+
+```kql
+event.code : ("1" or "4688" or "4104")
+```
+
+```kql
+source.ip : "10.10.10.25" or destination.ip : "10.10.10.25"
+```
+
+```kql
+process.name : ("powershell.exe" or "cmd.exe" or "rundll32.exe")
+```
+
+**If the query returns no results**
+- Widen the time range and verify the timezone.
+- Confirm the selected data view includes the correct index/data stream.
+- Search a known hostname or event code with `*` first.
+- Inspect the raw JSON: the field may be `winlog.event_data.*`, `event.code`, `winlog.event_id`, `message` or a custom field rather than the ECS field you expected.
+- Check the field type and exact value. `event.code` is commonly a keyword, so quote event IDs (for example, `"4624"`).
+- Remember that no indexed event can be found if the source was not collected, parsed or retained.
+
+---
+
+## CTF investigation order
+
+0. [Quick start: use Kibana during a CTF](#quick-start-use-kibana-during-a-ctf)
 1. [Validate the data and set the time window](#1-validate-data-and-time-window)
 2. [Authentication: successful and failed logons](#2-authentication-successful-and-failed-logons)
 3. [Process execution](#3-process-execution)
@@ -485,7 +543,7 @@ process.name : ("7z.exe" or "7za.exe" or "rar.exe" or "winrar.exe" or "tar.exe")
 Search for common data staging tools:
 
 ```kql
-process.name : (" robocopy.exe" or "xcopy.exe" or "esentutl.exe")
+process.name : ("robocopy.exe" or "xcopy.exe" or "esentutl.exe")
 ```
 
 **Investigate next**
@@ -861,6 +919,55 @@ Group conditions:
 host.name : "WORKSTATION01" and
 (event.code : "4624" or event.code : "4625")
 ```
+
+### ES|QL quick reference (different from KQL)
+
+Use ES|QL mode in Discover when you need columns, sorting or aggregation. Replace `logs-*` with the actual index/data stream name used by the challenge. Field availability and exact index names must be checked in your environment.
+
+Basic event search:
+
+```esql
+FROM logs-*
+| WHERE event.category == "process"
+| KEEP @timestamp, host.name, user.name, process.name, process.parent.name, process.command_line
+| SORT @timestamp DESC
+| LIMIT 100
+```
+
+Find PowerShell process launches:
+
+```esql
+FROM logs-*
+| WHERE process.name IN ("powershell.exe", "pwsh.exe")
+| KEEP @timestamp, host.name, user.name, process.parent.name, process.command_line
+| SORT @timestamp ASC
+| LIMIT 200
+```
+
+Count events by host (aggregation):
+
+```esql
+FROM logs-*
+| STATS event_count = COUNT(*) BY host.name
+| SORT event_count DESC
+| LIMIT 20
+```
+
+Count failed logons by account:
+
+```esql
+FROM logs-*
+| WHERE event.code == "4625"
+| STATS failed_logons = COUNT(*) BY user.name, host.name
+| SORT failed_logons DESC
+```
+
+**Remember the syntax difference**
+- KQL: `event.code : "4624"`
+- ES|QL: `WHERE event.code == "4624"`
+- KQL does not support pipes or `STATS`; ES|QL does.
+- In ES|QL, use `FROM`, `WHERE`, `KEEP`, `SORT`, `LIMIT` and `STATS`.
+- `logs-*` is only an example source pattern. Use the actual index/data stream name and fields in the CTF environment.
 
 ### Common ECS fields
 
