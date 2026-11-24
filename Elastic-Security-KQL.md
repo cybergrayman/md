@@ -1,13 +1,8 @@
-# Elastic Security KQL — DFIR & Blue-Team CTF Hunting Handbook
+# Elastic Security KQL
 
-A practical, investigation-ordered reference for CTFs where logs are stored in
-**Elasticsearch / Elastic Security** rather than Splunk.
+## Elastic Security KQL — DFIR & Blue-Team CTF Hunting Handbook
 
-> **Important:** KQL (Kibana Query Language) filters documents. It does not support
-> pipes, `stats`, `eval`, `table`, `sort`, or aggregation commands. Use the query
-> in Discover, the Elastic Security Alerts/Events views, or Timeline. Use the
-> available fields and visualizations to group, sort, and correlate results.
-
+A practical, investigation-ordered reference 
 ---
 
 ## CTF investigation order
