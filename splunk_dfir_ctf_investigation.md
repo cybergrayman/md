@@ -16,30 +16,22 @@ into a timeline. Skip or revisit steps when challenge clues point elsewhere.
 
 ## Contents
 
-1.  [Windows process execution](#1-windows-process-execution)
-2.  [PowerShell script-block
-    investigation](#2-powershell-script-block-investigation)
-3.  [Encoded and hidden PowerShell
-    execution](#3-encoded-and-hidden-powershell-execution)
-4.  [Suspicious PowerShell download and execution
-    patterns](#4-suspicious-powershell-download-and-execution-patterns)
-5.  [Persistence hunting](#5-persistence-hunting)
-6.  [User activity reconstruction on a
-    workstation](#6-user-activity-reconstruction-on-a-workstation)
-7.  [File-server activity
-    investigation](#7-file-server-activity-investigation)
-8.  [Sensitive document access --- PDF, DOC, XLS and
-    TXT](#8-sensitive-document-access--pdf-doc-xls-and-txt)
-9.  [URL extraction from raw events](#9-url-extraction-from-raw-events)
-10. [Successful and failed logon
-    analysis](#10-successful-and-failed-logon-analysis)
-11. [Network and DNS investigation](#11-network-and-dns-investigation)
-12. [Windows file activity and share
-    access](#12-windows-file-activity-and-share-access)
+1. [Successful and failed logon analysis](#1-successful-and-failed-logon-analysis)
+2. [Windows process execution](#2-windows-process-execution)
+3. [PowerShell script-block investigation](#3-powershell-script-block-investigation)
+4. [Encoded and hidden PowerShell execution](#4-encoded-and-hidden-powershell-execution)
+5. [Suspicious PowerShell download and execution patterns](#5-suspicious-powershell-download-and-execution-patterns)
+6. [URL extraction from raw events](#6-url-extraction-from-raw-events)
+7. [Network and DNS investigation](#7-network-and-dns-investigation)
+8. [Windows file activity and share access](#8-windows-file-activity-and-share-access)
+9. [Sensitive document access: PDF, DOC, XLS and TXT](#9-sensitive-document-access-pdf-doc-xls-and-txt)
+10. [File-server activity investigation](#10-file-server-activity-investigation)
+11. [Persistence hunting](#11-persistence-hunting)
+12. [User activity reconstruction on a workstation](#12-user-activity-reconstruction-on-a-workstation)
 13. [Build an incident timeline](#13-build-an-incident-timeline)
 14. [Quick Event ID reference](#14-quick-event-id-reference)
-15. [DFIR investigation workflow](#15-dfir-investigation-workflow)
-16. [SPL and field-validation notes](#16-spl-and-field-validation-notes)
+15. [SPL and field-validation notes](#15-spl-and-field-validation-notes)
+16. [DFIR investigation workflow](#16-dfir-investigation-workflow)
 
 ------------------------------------------------------------------------
 
@@ -414,7 +406,7 @@ from unexpected client addresses.
 
 ------------------------------------------------------------------------
 
-## 9. Sensitive document access --- PDF, DOC, XLS and TXT
+## 9. Sensitive document access: PDF, DOC, XLS and TXT
 
 **Use case:** Find Windows file-share access events involving documents
 with selected extensions. This is useful when investigating access to
