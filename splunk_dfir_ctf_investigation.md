@@ -491,7 +491,7 @@ events and filter only when the context is understood.
 **Use case:** Find mechanisms that allow an attacker or unwanted program
 to execute again after logoff, reboot or another trigger.
 
-### 5.1 Registry Run and RunOnce keys
+### 11.1 Registry Run and RunOnce keys
 
 **Events:** Sysmon 12, 13 and 14. Event 13 records registry value
 setting; Event 12 records key/value creation or deletion; Event 14
@@ -510,7 +510,7 @@ process, user context, signature and file hash. Event 13's
 `TargetObject` usually includes the value name, so matching the key
 prefix with wildcards is more reliable than exact equality.
 
-### 5.2 Scheduled task creation
+### 11.2 Scheduled task creation
 
 **Events:** Security 4698 (scheduled task created); Sysmon 1 can reveal
 `schtasks.exe` or PowerShell task cmdlets.
@@ -527,7 +527,7 @@ index=* (EventCode=4698 OR EventCode=1 OR EventCode=4688)
 **Investigate:** task name, task XML/action, trigger, run-as account,
 executable/script path and creator.
 
-### 5.3 Startup folder file creation
+### 11.3 Startup folder file creation
 
 **Event:** Sysmon 11 --- FileCreate.
 
@@ -541,7 +541,7 @@ index=* EventCode=11
 Check both per-user and all-user Startup folders. Also investigate
 scripts, shortcuts and files created by unusual parent processes.
 
-### 5.4 Windows service persistence
+### 11.4 Windows service persistence
 
 **Evidence sources:** Sysmon 12/13 for registry changes under the
 Services key; Security 4697 or System 7045 for service installation.
@@ -563,7 +563,7 @@ index=* (EventCode=4697 OR EventCode=7045)
 signer, hash and installation time. Field names differ by source and
 Windows event parser.
 
-### 5.5 WMI persistence
+### 11.5 WMI persistence
 
 **Events:** Sysmon 19, 20 and 21 --- WMI filter, consumer and binding
 activity.
@@ -577,7 +577,7 @@ index=* (EventCode=19 OR EventCode=20 OR EventCode=21)
 **Investigate:** filter query, consumer command/script, binding
 relationship and the process/user that created the subscription.
 
-### 5.6 Persistence-related file deletion or tampering
+### 11.6 Persistence-related file deletion or tampering
 
 Do not treat Sysmon Event 23 as DLL injection. Event 23 is file deletion
 with archiving; Event 26 is file deletion detected without archiving.
