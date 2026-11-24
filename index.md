@@ -1,4 +1,4 @@
-# CyberGrayMan — Security & DFIR Writeups
+# Security & DFIR Writeups
 
 Welcome to my security investigations, DFIR walkthroughs, and SOC playbooks.
 
