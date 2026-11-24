@@ -1,8 +1,9 @@
 # Elastic Security KQL
 
-## Elastic Security KQL — DFIR & Blue-Team CTF Hunting Handbook
+### Elastic Security KQL — DFIR & Blue-Team CTF Hunting Handbook
 
 A practical, investigation-ordered reference 
+
 ---
 
 ## CTF investigation order
