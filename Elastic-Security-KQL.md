@@ -6,8 +6,6 @@ A practical, investigation-ordered reference
 
 ---
 
-## CTF investigation order
-
 1. [Validate the data and set the time window](#1-validate-data-and-time-window)
 2. [Authentication: successful and failed logons](#2-authentication-successful-and-failed-logons)
 3. [Process execution](#3-process-execution)
