@@ -391,7 +391,7 @@ img {
 
 
 /* =====================================
-   10. RIGHT SIDE PAGE MAP
+   10. RIGHT SIDE DYNAMIC PAGE MAP
 ===================================== */
 
 #right-toc {
@@ -399,31 +399,33 @@ img {
   right: 0;
   top: 12%;
   width: 45px;
-  height: 76vh;
   z-index: 100;
+  transition: top .2s ease-out;
 }
 
-/* Dynamic heading indicators */
+/* Compact group of heading indicators */
 
 #toc-indicator {
-  position: relative;
   width: 45px;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
 /* One line per heading */
 
 .toc-marker {
-  position: absolute;
-  right: 10px;
+  display: block;
+  flex: 0 0 2px;
   width: 19px;
   height: 2px;
   padding: 0;
   border: 0;
   background: var(--blue);
   cursor: pointer;
-  transform: translateY(-50%);
   transition:
     width .2s,
     background .2s,
@@ -434,11 +436,16 @@ img {
   background: var(--green);
 }
 
+/* Current section */
+
 .toc-marker.active {
   width: 31px;
   height: 3px;
+  flex-basis: 3px;
   background: var(--green);
 }
+
+/* Hover effect */
 
 #right-toc:hover .toc-marker {
   width: 29px;
@@ -690,9 +697,7 @@ img {
     </div>
   </div>
 
-  <div class="nav-heading">
-    Navigation
-  </div>
+  <div class="nav-heading">Navigation</div>
 
   <ul>
 
@@ -741,7 +746,6 @@ img {
 <main>
 
   <div class="topbar">
-
     <div class="topbar-actions">
 
       <button type="button"
@@ -757,7 +761,6 @@ img {
       </button>
 
     </div>
-
   </div>
 
   <div class="content">
@@ -768,7 +771,7 @@ img {
 
 
 <!-- =====================================
-     RIGHT SIDE DYNAMIC PAGE MAP
+     RIGHT SIDE PAGE MAP
 ===================================== -->
 
 <nav id="right-toc" aria-label="Page navigation">
@@ -777,9 +780,7 @@ img {
 
   <div id="toc-panel">
 
-    <div class="toc-title">
-      ON THIS PAGE
-    </div>
+    <div class="toc-title">ON THIS PAGE</div>
 
     <ul id="toc-links"></ul>
 
@@ -794,9 +795,7 @@ img {
 
 <!-- BACK TO TOP -->
 
-<a href="#top" class="back-to-top">
-  ↑ Top
-</a>
+<a href="#top" class="back-to-top">↑ Top</a>
 
 
 <!-- =====================================
@@ -804,7 +803,6 @@ img {
 ===================================== -->
 
 <script>
-
 
 /* =====================================
    1. DARK / LIGHT MODE
@@ -899,6 +897,7 @@ document.querySelectorAll('.content pre').forEach((pre) => {
 const tocList = document.getElementById('toc-links');
 const tocEmpty = document.getElementById('toc-empty');
 const tocIndicator = document.getElementById('toc-indicator');
+const rightToc = document.getElementById('right-toc');
 
 const headings = Array.from(
   document.querySelectorAll('.content h2, .content h3')
@@ -909,11 +908,11 @@ const tocItems = [];
 
 headings.forEach((heading, index) => {
 
-  // Preserve existing IDs
-
   if (!heading.id) {
     heading.id = 'section-' + index;
   }
+
+  // Create TOC entry
 
   const li = document.createElement('li');
   const link = document.createElement('a');
@@ -928,7 +927,8 @@ headings.forEach((heading, index) => {
   li.appendChild(link);
   tocList.appendChild(li);
 
-  // Create one indicator for each heading
+
+  // Create one compact marker per heading
 
   const marker = document.createElement('button');
 
@@ -964,52 +964,13 @@ if (headings.length === 0) {
 
 
 /* =====================================
-   5. POSITION LINES ACCORDING TO
-      ACTUAL HEADING LOCATIONS
+   5. FIND CURRENT READING SECTION
 ===================================== */
 
-function positionMarkers() {
+function getActiveIndex() {
 
-  if (!headings.length) return;
-
-  const documentHeight = Math.max(
-    1,
-    document.documentElement.scrollHeight
-  );
-
-  const railHeight = tocIndicator.clientHeight;
-
-  const usableHeight = Math.max(1, railHeight - 10);
-
-  tocItems.forEach((item) => {
-
-    const headingPosition =
-      item.heading.getBoundingClientRect().top + window.scrollY;
-
-    const percentage =
-      Math.min(1, Math.max(0, headingPosition / documentHeight));
-
-    const position = 5 + percentage * usableHeight;
-
-    item.marker.style.top = position + 'px';
-
-  });
-
-}
-
-
-/* =====================================
-   6. CURRENT READING POSITION
-===================================== */
-
-function updateActiveHeading() {
-
-  if (!tocItems.length) return;
-
-  // Find the last heading that has passed
-  // the reading reference point.
-
-  const readingPosition = window.scrollY + window.innerHeight * 0.30;
+  const readingPosition =
+    window.scrollY + window.innerHeight * 0.30;
 
   let activeIndex = 0;
 
@@ -1024,6 +985,24 @@ function updateActiveHeading() {
 
   });
 
+  return activeIndex;
+
+}
+
+
+/* =====================================
+   6. MOVE THE COMPACT LINE GROUP
+      BASED ON READING PROGRESS
+===================================== */
+
+function updatePageMap() {
+
+  if (!tocItems.length) return;
+
+  const activeIndex = getActiveIndex();
+
+  // Highlight current section
+
   tocItems.forEach((item, index) => {
 
     const active = index === activeIndex;
@@ -1033,16 +1012,41 @@ function updateActiveHeading() {
 
   });
 
+
+  // Keep all lines tightly grouped.
+  // Move the entire group according to the
+  // current heading position in the document.
+
+  const groupHeight = tocIndicator.offsetHeight;
+
+  const viewportHeight = window.innerHeight;
+
+  const minTop = 15;
+
+  const maxTop = Math.max(
+    minTop,
+    viewportHeight - groupHeight - 15
+  );
+
+  const progress = tocItems.length > 1
+    ? activeIndex / (tocItems.length - 1)
+    : 0;
+
+  const newTop =
+    minTop + (maxTop - minTop) * progress;
+
+  rightToc.style.top = newTop + 'px';
+
 }
 
 
 /* =====================================
-   7. UPDATE PAGE MAP
+   7. UPDATE ON SCROLL AND RESIZE
 ===================================== */
 
 let updateScheduled = false;
 
-function updatePageMap() {
+function schedulePageMapUpdate() {
 
   if (updateScheduled) return;
 
@@ -1050,8 +1054,7 @@ function updatePageMap() {
 
   requestAnimationFrame(() => {
 
-    positionMarkers();
-    updateActiveHeading();
+    updatePageMap();
 
     updateScheduled = false;
 
@@ -1059,52 +1062,56 @@ function updatePageMap() {
 
 }
 
+window.addEventListener(
+  'scroll',
+  schedulePageMapUpdate,
+  { passive: true }
+);
 
-// Update when user scrolls
-
-window.addEventListener('scroll', updatePageMap, {
-  passive: true
-});
-
-
-// Update when window changes size
-
-window.addEventListener('resize', updatePageMap);
+window.addEventListener(
+  'resize',
+  schedulePageMapUpdate
+);
 
 
-// Update when images or other content change page height
+/* =====================================
+   8. UPDATE WHEN CONTENT HEIGHT CHANGES
+===================================== */
 
 if ('ResizeObserver' in window) {
-
-  const contentObserver = new ResizeObserver(updatePageMap);
 
   const content = document.querySelector('.content');
 
   if (content) {
+
+    const contentObserver = new ResizeObserver(
+      schedulePageMapUpdate
+    );
+
     contentObserver.observe(content);
+
   }
 
 }
 
-
-// Recalculate after images finish loading
-
 document.querySelectorAll('.content img').forEach(img => {
 
   if (!img.complete) {
-    img.addEventListener('load', updatePageMap);
-    img.addEventListener('error', updatePageMap);
+
+    img.addEventListener('load', schedulePageMapUpdate);
+
+    img.addEventListener('error', schedulePageMapUpdate);
+
   }
 
 });
 
 
-// Initial calculation
+/* INITIAL UPDATE */
 
-window.addEventListener('load', updatePageMap);
+window.addEventListener('load', schedulePageMapUpdate);
 
-updatePageMap();
-
+schedulePageMapUpdate();
 
 </script>
 
