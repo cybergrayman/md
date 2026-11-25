@@ -12,10 +12,7 @@
   <script>
     (function () {
       const saved = localStorage.getItem('theme');
-      document.documentElement.setAttribute(
-        'data-theme',
-        saved || 'dark'
-      );
+      document.documentElement.setAttribute('data-theme', saved || 'dark');
     })();
   </script>
 
@@ -67,7 +64,7 @@
       min-height: 100vh;
       background: var(--bg);
       color: var(--fg);
-      font: 15px/1.65 system-ui, -apple-system, sans-serif;
+      font: 16px/1.75 system-ui, -apple-system, sans-serif;
       display: flex;
     }
 
@@ -95,21 +92,21 @@
     }
 
     .sidebar-header h2 {
-      font-size: 19px;
+      font-size: 21px;
       margin: 0;
       font-weight: 700;
       letter-spacing: .3px;
     }
 
     .sidebar-subtitle {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted);
       margin-top: 3px;
     }
 
     .nav-heading {
       color: var(--muted);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
       padding: 10px 13px;
       text-transform: uppercase;
@@ -128,11 +125,11 @@
 
     aside a {
       display: block;
-      padding: 10px 13px;
+      padding: 11px 13px;
       border-radius: 5px;
       color: var(--fg);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 15px;
       transition: background .2s, color .2s;
     }
 
@@ -158,7 +155,7 @@
       margin-top: 25px;
       padding: 15px 12px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 13px;
     }
 
 
@@ -178,15 +175,9 @@
       min-height: 57px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       border-bottom: 1px solid var(--border);
       gap: 15px;
-    }
-
-    .topbar-title {
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
     }
 
     .topbar-actions {
@@ -200,9 +191,9 @@
       border: 0;
       background: transparent;
       color: var(--fg);
-      font-size: 13px;
+      font-size: 14px;
       cursor: pointer;
-      padding: 7px 10px;
+      padding: 8px 10px;
     }
 
     .theme-toggle:hover,
@@ -223,35 +214,36 @@
 
     h1, h2, h3, h4 {
       color: var(--fg);
-      line-height: 1.35;
+      line-height: 1.4;
       font-weight: 700;
     }
 
     h1 {
-      font-size: 27px;
+      font-size: 30px;
       margin-top: 0;
       padding-bottom: 15px;
       border-bottom: 1px solid var(--border);
     }
 
     h2 {
-      font-size: 21px;
-      margin-top: 35px;
+      font-size: 24px;
+      margin-top: 38px;
       padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
     }
 
     h3 {
-      font-size: 17px;
-      margin-top: 27px;
+      font-size: 20px;
+      margin-top: 28px;
     }
 
     h4 {
-      font-size: 15px;
+      font-size: 17px;
     }
 
     p {
-      margin: 12px 0;
+      font-size: 16px;
+      margin: 14px 0;
     }
 
     a {
@@ -280,11 +272,12 @@
 
     .content ul,
     .content ol {
-      padding-left: 25px;
+      padding-left: 27px;
     }
 
     .content li {
-      margin-bottom: 7px;
+      font-size: 16px;
+      margin-bottom: 9px;
     }
 
     .content li::marker {
@@ -299,12 +292,12 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 14px;
+      margin: 22px 0;
+      font-size: 15px;
     }
 
     th, td {
-      padding: 11px 13px;
+      padding: 12px 14px;
       border: 1px solid var(--border);
       text-align: left;
       overflow-wrap: anywhere;
@@ -330,43 +323,43 @@
 
     .code-wrapper {
       position: relative;
-      margin: 18px 0;
+      margin: 20px 0;
     }
 
     pre {
       background: var(--code);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 17px;
+      padding: 19px;
       overflow-x: auto;
-      font-size: 13px;
-      line-height: 1.6;
+      font-size: 14px;
+      line-height: 1.75;
       color: var(--fg);
     }
 
     code {
       font-family: Consolas, Monaco, "Courier New", monospace;
-      font-size: .9em;
+      font-size: .95em;
     }
 
     :not(pre) > code {
       background: var(--panel);
       border: 1px solid var(--border);
       border-radius: 4px;
-      padding: 2px 5px;
+      padding: 3px 6px;
       color: var(--green);
     }
 
     .copy-btn {
       position: absolute;
-      top: 9px;
-      right: 9px;
+      top: 10px;
+      right: 10px;
       background: var(--sidebar);
       border: 1px solid var(--border);
       color: var(--fg);
       border-radius: 4px;
-      padding: 4px 9px;
-      font-size: 11px;
+      padding: 5px 11px;
+      font-size: 12px;
       cursor: pointer;
     }
 
@@ -382,7 +375,7 @@
 
     blockquote {
       margin: 20px 0;
-      padding: 12px 18px;
+      padding: 14px 20px;
       border-left: 3px solid var(--green);
       background: var(--panel);
       color: var(--muted);
@@ -401,7 +394,7 @@
 
 
     /* =====================================
-       10. RIGHT SIDE MOVING INDICATOR
+       10. RIGHT SIDE STATIC TOC
     ===================================== */
 
     #right-toc {
@@ -411,11 +404,9 @@
       z-index: 100;
       display: flex;
       align-items: flex-start;
-      will-change: top;
-      transition: top .15s ease-out;
     }
 
-    /* Collapsed vertical lines */
+    /* Vertical indicator lines */
 
     #toc-indicator {
       width: 45px;
@@ -444,17 +435,17 @@
 
 
     /* =====================================
-       11. EXPANDED RIGHT TOC PANEL
+       11. EXPANDED TOC PANEL
     ===================================== */
 
     #toc-panel {
       position: absolute;
       right: 45px;
       top: 0;
-      width: 340px;
+      width: 350px;
       max-height: 70vh;
       overflow-y: auto;
-      padding: 18px;
+      padding: 20px;
       background: var(--sidebar);
       border: 1px solid var(--border);
       border-radius: 5px;
@@ -478,9 +469,9 @@
     }
 
     .toc-title {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       color: var(--muted);
       letter-spacing: 1px;
     }
@@ -497,9 +488,9 @@
 
     #toc-links a {
       display: block;
-      padding: 7px 5px;
+      padding: 9px 7px;
       color: var(--fg);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       text-decoration: none;
       border-radius: 4px;
@@ -511,8 +502,8 @@
     }
 
     #toc-links .toc-h3 {
-      padding-left: 20px;
-      font-size: 12px;
+      padding-left: 23px;
+      font-size: 13px;
       font-weight: 400;
     }
 
@@ -523,7 +514,7 @@
 
     #toc-empty {
       color: var(--muted);
-      font-size: 12px;
+      font-size: 13px;
     }
 
 
@@ -535,12 +526,12 @@
       position: fixed;
       right: 25px;
       bottom: 22px;
-      padding: 8px 14px;
+      padding: 9px 15px;
       background: var(--panel);
       border: 1px solid var(--border);
       color: var(--fg);
       border-radius: 5px;
-      font-size: 12px;
+      font-size: 13px;
       z-index: 10;
     }
 
@@ -584,11 +575,15 @@
       }
 
       h1 {
-        font-size: 23px;
+        font-size: 26px;
       }
 
       h2 {
-        font-size: 19px;
+        font-size: 21px;
+      }
+
+      h3 {
+        font-size: 18px;
       }
 
       table {
@@ -604,7 +599,7 @@
 
 
     /* =====================================
-       14. PRINT
+       14. PRINT / SAVE AS PDF
     ===================================== */
 
     @media print {
@@ -745,14 +740,10 @@
 
   <main>
 
-
-    <!-- TOP BAR -->
+    <!-- TOP BAR: ACTIONS ONLY -->
+    <!-- Page title appears in Markdown content, not here -->
 
     <div class="topbar">
-
-      <div class="topbar-title">
-        {{ page.title | default: site.title | default: "CyberGrayMan" }}
-      </div>
 
       <div class="topbar-actions">
 
@@ -775,7 +766,7 @@
     </div>
 
 
-    <!-- PAGE CONTENT -->
+    <!-- MARKDOWN PAGE CONTENT -->
 
     <div class="content">
       {{ content }}
@@ -787,11 +778,10 @@
 
   <!-- =====================================
        RIGHT SIDE TABLE OF CONTENTS
+       STATIC POSITION
   ===================================== -->
 
   <nav id="right-toc" aria-label="Page contents">
-
-    <!-- Vertical indicator -->
 
     <div id="toc-indicator" aria-label="Open page navigation">
 
@@ -806,8 +796,6 @@
     </div>
 
 
-    <!-- Expanded navigation panel -->
-
     <div id="toc-panel">
 
       <div class="toc-title">
@@ -817,7 +805,7 @@
       <ul id="toc-links"></ul>
 
       <div id="toc-empty" hidden>
-        No headings found on this page.
+        No section headings found.
       </div>
 
     </div>
@@ -948,6 +936,7 @@
 
     /* =====================================
        4. AUTOMATIC RIGHT SIDE TOC
+       H2 AND H3 ONLY
     ===================================== */
 
     const tocList =
@@ -956,12 +945,12 @@
     const tocEmpty =
       document.getElementById('toc-empty');
 
-    const rightToc =
-      document.getElementById('right-toc');
 
+    // Exclude H1 because it is the main page title.
+    // This prevents the page title appearing again in the TOC.
 
     const headings = document.querySelectorAll(
-      '.content h1, .content h2, .content h3'
+      '.content h2, .content h3'
     );
 
 
@@ -969,7 +958,7 @@
 
       headings.forEach((heading, index) => {
 
-        // Preserve existing heading IDs
+        // Preserve existing heading IDs.
 
         if (!heading.id) {
 
@@ -987,7 +976,7 @@
         link.textContent = heading.textContent.trim();
 
 
-        // Indent H3 headings
+        // Indent H3 subheadings.
 
         if (heading.tagName === 'H3') {
 
@@ -996,7 +985,7 @@
         }
 
 
-        // Click heading navigation
+        // Click navigation.
 
         link.addEventListener('click', () => {
 
@@ -1015,6 +1004,8 @@
       });
 
 
+      // Empty TOC message.
+
       if (headings.length === 0) {
 
         tocEmpty.hidden = false;
@@ -1024,7 +1015,7 @@
 
 
       /* =====================================
-         5. HIGHLIGHT CURRENT HEADING
+         5. HIGHLIGHT CURRENT SECTION
       ===================================== */
 
       if ('IntersectionObserver' in window) {
@@ -1039,8 +1030,10 @@
                 document.querySelectorAll('#toc-links a')
                   .forEach(a => a.classList.remove('active'));
 
-                const active = document.querySelector(
-                  '#toc-links a[href="#' + entry.target.id + '"]'
+                const active = Array.from(
+                  document.querySelectorAll('#toc-links a')
+                ).find(a =>
+                  a.getAttribute('href') === '#' + entry.target.id
                 );
 
                 if (active) {
@@ -1069,96 +1062,6 @@
       }
 
     }
-
-
-
-    /* =====================================
-       6. MOVING RIGHT SIDE INDICATOR
-    ===================================== */
-
-    function moveRightIndicator() {
-
-      if (!rightToc) return;
-
-      const scrollTop = window.scrollY;
-
-      const documentHeight =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
-
-      // Calculate page reading progress
-
-      const progress = documentHeight > 0
-        ? Math.min(1, Math.max(0, scrollTop / documentHeight))
-        : 0;
-
-
-      // Indicator movement boundaries
-
-      const minPosition = window.innerHeight * 0.12;
-
-      const maxPosition =
-        Math.max(
-          minPosition,
-          window.innerHeight * 0.80 -
-          rightToc.offsetHeight
-        );
-
-
-      // Calculate vertical position
-
-      const newPosition =
-        minPosition +
-        (maxPosition - minPosition) * progress;
-
-
-      rightToc.style.top = newPosition + 'px';
-
-    }
-
-
-    // Move indicator when scrolling
-
-    window.addEventListener(
-      'scroll',
-      moveRightIndicator,
-      { passive: true }
-    );
-
-
-    // Recalculate on window resizing
-
-    window.addEventListener(
-      'resize',
-      moveRightIndicator
-    );
-
-
-    // Recalculate when page content changes
-
-    if ('ResizeObserver' in window) {
-
-      const contentObserver = new ResizeObserver(() => {
-
-        moveRightIndicator();
-
-      });
-
-      const content = document.querySelector('.content');
-
-      if (content) {
-
-        contentObserver.observe(content);
-
-      }
-
-    }
-
-
-    // Initial position
-
-    moveRightIndicator();
-
 
   </script>
 
