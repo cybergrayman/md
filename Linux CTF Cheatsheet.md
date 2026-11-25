@@ -1,5 +1,15 @@
 # LINUX CTF CHEATSHEET
 
+## Contents
+1. [File Search & Content](#file-search--content)
+2. [File & Directory Operations](#file--directory-operations)
+3. [Encoding, Crypto & Executables](#encoding-crypto--executables)
+4. [Network & Services](#network--services)
+5. [Process & Privilege Investigation](#process--privilege-investigation)
+6. [Download & Archive](#download--archive)
+7. [Netcat & Shell Scripts](#netcat--shell-scripts)
+
+---
 
 ## FILE SEARCH & CONTENT
 
