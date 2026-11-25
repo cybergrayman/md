@@ -62,8 +62,9 @@
       font-size: 1.05rem;
       margin: 0;
     }
-    .theme-toggle {
-      padding: 4px 8px;
+    .theme-toggle,
+    .print-btn {
+      padding: 4px 10px;
       font-size: 0.78rem;
       border: 1px solid var(--border-strong);
       border-radius: 6px;
@@ -71,7 +72,8 @@
       color: var(--fg);
       cursor: pointer;
     }
-    .theme-toggle:hover {
+    .theme-toggle:hover,
+    .print-btn:hover {
       border-color: var(--fg);
     }
     aside ul {
@@ -100,6 +102,11 @@
       padding: 32px 40px 80px;
       min-width: 0;
       box-sizing: border-box;
+    }
+    .page-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
     }
     table {
       width: 100%;
@@ -174,6 +181,48 @@
       }
       main { padding: 24px 20px 80px; }
     }
+    @media print {
+      @page {
+        margin: 1.5cm;
+      }
+      :root,
+      html[data-theme="dark"] {
+        --bg: #ffffff;
+        --fg: #1f2328;
+        --muted-bg: #f6f8fa;
+        --stripe-bg: #f6f8fa;
+        --border: #d0d7de;
+        --border-strong: #d0d7de;
+        color-scheme: light;
+      }
+      body {
+        display: block;
+        min-height: auto;
+        background: #ffffff;
+        color: #1f2328;
+      }
+      aside,
+      .page-actions,
+      .copy-btn,
+      .back-to-top {
+        display: none !important;
+      }
+      main {
+        padding: 0;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-x: visible;
+        border: 1px solid var(--border);
+      }
+      h1, h2, h3, h4 {
+        break-after: avoid;
+      }
+      pre, blockquote, tr, img {
+        break-inside: avoid;
+      }
+    }
   </style>
 </head>
 <body id="top">
@@ -200,6 +249,9 @@
   </aside>
 
   <main>
+    <div class="page-actions">
+      <button type="button" id="print-page" class="print-btn">Print / Save as PDF</button>
+    </div>
     {{ content }}
   </main>
 
@@ -219,6 +271,10 @@
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
       syncToggleLabel();
+    });
+
+    document.getElementById('print-page').addEventListener('click', () => {
+      window.print();
     });
 
     document.querySelectorAll('pre').forEach((pre) => {
