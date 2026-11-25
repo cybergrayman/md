@@ -3,1067 +3,1110 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>{{ page.title | default: site.title | default: "CyberGrayMan" }}</title>
-
-  <!-- THEME INITIALIZATION -->
-  <script>
-    (function () {
-      const saved = localStorage.getItem('theme');
-      document.documentElement.setAttribute('data-theme', saved || 'dark');
-    })();
-  </script>
-
-  <style>
-
-    /* =====================================
-       1. THEME COLORS
-    ===================================== */
-
-    :root {
-      --bg: #18191d;
-      --sidebar: #191a1f;
-      --panel: #101114;
-      --fg: #f0f0f0;
-      --muted: #a1a1aa;
-      --border: #414147;
-      --green: #00c878;
-      --green-bg: #153127;
-      --blue: #00aaff;
-      --code: #111318;
-      color-scheme: dark;
-    }
-
-    html[data-theme="light"] {
-      --bg: #ffffff;
-      --sidebar: #f6f7f9;
-      --panel: #f0f1f3;
-      --fg: #242424;
-      --muted: #666666;
-      --border: #d4d4d8;
-      --green: #008c59;
-      --green-bg: #dff5e9;
-      --blue: #0077bb;
-      --code: #f1f2f4;
-      color-scheme: light;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 20px;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--fg);
-      font: 16px/1.75 system-ui, -apple-system, sans-serif;
-      display: flex;
-    }
-
-
-    /* =====================================
-       2. LEFT SIDEBAR
-    ===================================== */
-
-    aside {
-      width: 283px;
-      min-width: 283px;
-      height: 100vh;
-      position: sticky;
-      top: 0;
-      overflow-y: auto;
-      background: var(--sidebar);
-      border-right: 1px solid var(--border);
-      padding: 25px 10px;
-    }
-
-    .sidebar-header {
-      padding: 5px 12px 24px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-
-    .sidebar-header h2 {
-      font-size: 21px;
-      margin: 0;
-      font-weight: 700;
-      letter-spacing: .3px;
-    }
-
-    .sidebar-subtitle {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 3px;
-    }
-
-    .nav-heading {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      padding: 10px 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    aside ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    aside li {
-      margin-bottom: 4px;
-    }
-
-    aside a {
-      display: block;
-      padding: 11px 13px;
-      border-radius: 5px;
-      color: var(--fg);
-      text-decoration: none;
-      font-size: 15px;
-      transition: background .2s, color .2s;
-    }
-
-    aside a:hover {
-      background: var(--panel);
-      color: var(--blue);
-    }
-
-    aside a.active {
-      background: var(--green-bg);
-      color: var(--green);
-      font-weight: 700;
-    }
-
-    .nav-icon {
-      display: inline-block;
-      width: 23px;
-      color: var(--muted);
-    }
-
-    .sidebar-footer {
-      border-top: 1px solid var(--border);
-      margin-top: 25px;
-      padding: 15px 12px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-
-    /* =====================================
-       3. MAIN CONTENT
-    ===================================== */
-
-    main {
-      flex: 1;
-      min-width: 0;
-      padding: 0 40px 80px;
-    }
-
-    .topbar {
-      max-width: 1100px;
-      margin: 0 auto;
-      min-height: 57px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      border-bottom: 1px solid var(--border);
-      gap: 15px;
-    }
-
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .theme-toggle,
-    .print-btn {
-      border: 0;
-      background: transparent;
-      color: var(--fg);
-      font-size: 14px;
-      cursor: pointer;
-      padding: 8px 10px;
-    }
-
-    .theme-toggle:hover,
-    .print-btn:hover {
-      color: var(--blue);
-    }
-
-    .content {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding-top: 25px;
-    }
-
-
-    /* =====================================
-       4. HEADINGS AND TEXT
-    ===================================== */
-
-    h1, h2, h3, h4 {
-      color: var(--fg);
-      line-height: 1.4;
-      font-weight: 700;
-    }
-
-    h1 {
-      font-size: 30px;
-      margin-top: 0;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    h2 {
-      font-size: 24px;
-      margin-top: 38px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    h3 {
-      font-size: 20px;
-      margin-top: 28px;
-    }
-
-    h4 {
-      font-size: 17px;
-    }
-
-    p {
-      font-size: 16px;
-      margin: 14px 0;
-    }
-
-    a {
-      color: var(--blue);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    strong {
-      color: var(--fg);
-    }
-
-    hr {
-      border: 0;
-      border-top: 1px solid var(--border);
-      margin: 25px 0;
-    }
-
-
-    /* =====================================
-       5. LISTS
-    ===================================== */
-
-    .content ul,
-    .content ol {
-      padding-left: 27px;
-    }
-
-    .content li {
-      font-size: 16px;
-      margin-bottom: 9px;
-    }
-
-    .content li::marker {
-      color: var(--muted);
-    }
-
-
-    /* =====================================
-       6. TABLES
-    ===================================== */
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 22px 0;
-      font-size: 15px;
-    }
-
-    th, td {
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      text-align: left;
-      overflow-wrap: anywhere;
-    }
-
-    th {
-      background: var(--panel);
-      font-weight: 700;
-    }
-
-    tr:nth-child(even) {
-      background: var(--panel);
-    }
-
-    tr:hover {
-      background: var(--green-bg);
-    }
-
-
-    /* =====================================
-       7. CODE BLOCKS
-    ===================================== */
-
-    .code-wrapper {
-      position: relative;
-      margin: 20px 0;
-    }
-
-    pre {
-      background: var(--code);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 19px;
-      overflow-x: auto;
-      font-size: 14px;
-      line-height: 1.75;
-      color: var(--fg);
-    }
-
-    code {
-      font-family: Consolas, Monaco, "Courier New", monospace;
-      font-size: .95em;
-    }
-
-    :not(pre) > code {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 3px 6px;
-      color: var(--green);
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: var(--sidebar);
-      border: 1px solid var(--border);
-      color: var(--fg);
-      border-radius: 4px;
-      padding: 5px 11px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .copy-btn:hover {
-      border-color: var(--green);
-      color: var(--green);
-    }
-
-
-    /* =====================================
-       8. BLOCKQUOTES
-    ===================================== */
-
-    blockquote {
-      margin: 20px 0;
-      padding: 14px 20px;
-      border-left: 3px solid var(--green);
-      background: var(--panel);
-      color: var(--muted);
-    }
-
-
-    /* =====================================
-       9. IMAGES
-    ===================================== */
-
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 5px;
-    }
-
-
-    /* =====================================
-       10. RIGHT SIDE STATIC TOC
-    ===================================== */
-
-    #right-toc {
-      position: fixed;
-      right: 0;
-      top: 12%;
-      z-index: 100;
-      display: flex;
-      align-items: flex-start;
-    }
-
-    /* Vertical indicator lines */
-
-    #toc-indicator {
-      width: 45px;
-      padding: 10px 8px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    #toc-indicator span {
-      display: block;
-      width: 28px;
-      height: 2px;
-      background: #00c878;
-      transition: width .2s;
-    }
-
-    #toc-indicator span:nth-child(n+4) {
-      background: #00aaff;
-    }
-
-    #right-toc:hover #toc-indicator span {
-      width: 34px;
-    }
-
-
-    /* =====================================
-       11. EXPANDED TOC PANEL
-    ===================================== */
-
-    #toc-panel {
-      position: absolute;
-      right: 45px;
-      top: 0;
-      width: 350px;
-      max-height: 70vh;
-      overflow-y: auto;
-      padding: 20px;
-      background: var(--sidebar);
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      box-shadow: 0 8px 25px #0005;
-
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(12px);
-
-      transition:
-        opacity .2s ease,
-        visibility .2s ease,
-        transform .2s ease;
-    }
-
-    #right-toc:hover #toc-panel,
-    #right-toc:focus-within #toc-panel {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0);
-    }
-
-    .toc-title {
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 14px;
-      color: var(--muted);
-      letter-spacing: 1px;
-    }
-
-    #toc-links {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    #toc-links li {
-      margin: 0;
-    }
-
-    #toc-links a {
-      display: block;
-      padding: 9px 7px;
-      color: var(--fg);
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      border-radius: 4px;
-    }
-
-    #toc-links a:hover {
-      background: var(--green-bg);
-      color: var(--green);
-    }
-
-    #toc-links .toc-h3 {
-      padding-left: 23px;
-      font-size: 13px;
-      font-weight: 400;
-    }
-
-    #toc-links a.active {
-      color: var(--green);
-      background: var(--green-bg);
-    }
-
-    #toc-empty {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-
-    /* =====================================
-       12. BACK TO TOP
-    ===================================== */
-
-    .back-to-top {
-      position: fixed;
-      right: 25px;
-      bottom: 22px;
-      padding: 9px 15px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      color: var(--fg);
-      border-radius: 5px;
-      font-size: 13px;
-      z-index: 10;
-    }
-
-    .back-to-top:hover {
-      border-color: var(--green);
-      color: var(--green);
-      text-decoration: none;
-    }
-
-
-    /* =====================================
-       13. MOBILE RESPONSIVE
-    ===================================== */
-
-    @media (max-width: 720px) {
-
-      body {
-        flex-direction: column;
-      }
-
-      aside {
-        width: 100%;
-        min-width: 0;
-        height: auto;
-        max-height: 300px;
-        position: relative;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-
-      main {
-        padding: 0 16px 70px;
-      }
-
-      .topbar {
-        min-height: 52px;
-      }
-
-      .content {
-        padding-top: 20px;
-      }
-
-      h1 {
-        font-size: 26px;
-      }
-
-      h2 {
-        font-size: 21px;
-      }
-
-      h3 {
-        font-size: 18px;
-      }
-
-      table {
-        display: block;
-        overflow-x: auto;
-      }
-
-      #right-toc {
-        display: none;
-      }
-
-    }
-
-
-    /* =====================================
-       14. PRINT / SAVE AS PDF
-    ===================================== */
-
-    @media print {
-
-      @page {
-        margin: 1.5cm;
-      }
-
-      :root,
-      html[data-theme="light"],
-      html[data-theme="dark"] {
-        --bg: #ffffff;
-        --fg: #1f2328;
-        --panel: #f6f8fa;
-        --border: #d0d7de;
-        --code: #f6f8fa;
-        --muted: #555555;
-        color-scheme: light;
-      }
-
-      body {
-        display: block;
-        background: white;
-        color: black;
-      }
-
-      aside,
-      .topbar,
-      .copy-btn,
-      .back-to-top,
-      #right-toc {
-        display: none !important;
-      }
-
-      main {
-        padding: 0;
-      }
-
-      pre {
-        white-space: pre-wrap;
-        overflow-wrap: anywhere;
-        overflow-x: visible;
-      }
-
-      pre,
-      blockquote,
-      tr,
-      img {
-        break-inside: avoid;
-      }
-
-      h1, h2, h3, h4 {
-        break-after: avoid;
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ page.title | default: site.title | default: "CyberGrayMan" }}</title>
+
+<script>
+(function () {
+  const saved = localStorage.getItem('theme');
+  document.documentElement.setAttribute('data-theme', saved || 'dark');
+})();
+</script>
+
+<style>
+
+/* =====================================
+   1. THEME
+===================================== */
+
+:root {
+  --bg: #18191d;
+  --sidebar: #191a1f;
+  --panel: #101114;
+  --fg: #f0f0f0;
+  --muted: #a1a1aa;
+  --border: #414147;
+  --green: #00c878;
+  --green-bg: #153127;
+  --blue: #00aaff;
+  --code: #111318;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  --bg: #ffffff;
+  --sidebar: #f6f7f9;
+  --panel: #f0f1f3;
+  --fg: #242424;
+  --muted: #666666;
+  --border: #d4d4d8;
+  --green: #008c59;
+  --green-bg: #dff5e9;
+  --blue: #0077bb;
+  --code: #f1f2f4;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 20px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.75 system-ui, -apple-system, sans-serif;
+  display: flex;
+}
+
+
+/* =====================================
+   2. LEFT SIDEBAR
+===================================== */
+
+aside {
+  width: 283px;
+  min-width: 283px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  padding: 25px 10px;
+}
+
+.sidebar-header {
+  padding: 5px 12px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+  font-size: 21px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.sidebar-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.nav-heading {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+aside ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+aside li {
+  margin-bottom: 4px;
+}
+
+aside a {
+  display: block;
+  padding: 11px 13px;
+  border-radius: 5px;
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 15px;
+  transition: background .2s, color .2s;
+}
+
+aside a:hover {
+  background: var(--panel);
+  color: var(--blue);
+}
+
+aside a.active {
+  background: var(--green-bg);
+  color: var(--green);
+  font-weight: 700;
+}
+
+.nav-icon {
+  display: inline-block;
+  width: 23px;
+  color: var(--muted);
+}
+
+.sidebar-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 25px;
+  padding: 15px 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+
+/* =====================================
+   3. MAIN CONTENT
+===================================== */
+
+main {
+  flex: 1;
+  min-width: 0;
+  padding: 0 40px 80px;
+}
+
+.topbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 57px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-toggle,
+.print-btn {
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 10px;
+}
+
+.theme-toggle:hover,
+.print-btn:hover {
+  color: var(--blue);
+}
+
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 25px;
+}
+
+
+/* =====================================
+   4. HEADINGS AND TEXT
+===================================== */
+
+h1, h2, h3, h4 {
+  color: var(--fg);
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 30px;
+  margin-top: 0;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+h2 {
+  font-size: 24px;
+  margin-top: 38px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+h3 {
+  font-size: 20px;
+  margin-top: 28px;
+}
+
+h4 {
+  font-size: 17px;
+}
+
+p {
+  font-size: 16px;
+  margin: 14px 0;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong {
+  color: var(--fg);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 25px 0;
+}
+
+
+/* =====================================
+   5. LISTS
+===================================== */
+
+.content ul,
+.content ol {
+  padding-left: 27px;
+}
+
+.content li {
+  font-size: 16px;
+  margin-bottom: 9px;
+}
+
+.content li::marker {
+  color: var(--muted);
+}
+
+
+/* =====================================
+   6. TABLES
+===================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 22px 0;
+  font-size: 15px;
+}
+
+th, td {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+th {
+  background: var(--panel);
+  font-weight: 700;
+}
+
+tr:nth-child(even) {
+  background: var(--panel);
+}
+
+tr:hover {
+  background: var(--green-bg);
+}
+
+
+/* =====================================
+   7. CODE BLOCKS
+===================================== */
+
+.code-wrapper {
+  position: relative;
+  margin: 20px 0;
+}
+
+pre {
+  background: var(--code);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 19px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--fg);
+}
+
+code {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  font-size: .95em;
+}
+
+:not(pre) > code {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 6px;
+  color: var(--green);
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--sidebar);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  border-radius: 4px;
+  padding: 5px 11px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+
+/* =====================================
+   8. BLOCKQUOTES
+===================================== */
+
+blockquote {
+  margin: 20px 0;
+  padding: 14px 20px;
+  border-left: 3px solid var(--green);
+  background: var(--panel);
+  color: var(--muted);
+}
+
+
+/* =====================================
+   9. IMAGES
+===================================== */
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+
+/* =====================================
+   10. RIGHT SIDE PAGE MAP
+===================================== */
+
+#right-toc {
+  position: fixed;
+  right: 0;
+  top: 12%;
+  width: 45px;
+  height: 76vh;
+  z-index: 100;
+}
+
+/* Dynamic heading indicators */
+
+#toc-indicator {
+  position: relative;
+  width: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* One line per heading */
+
+.toc-marker {
+  position: absolute;
+  right: 10px;
+  width: 19px;
+  height: 2px;
+  padding: 0;
+  border: 0;
+  background: var(--blue);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    width .2s,
+    background .2s,
+    height .2s;
+}
+
+.toc-marker:nth-child(even) {
+  background: var(--green);
+}
+
+.toc-marker.active {
+  width: 31px;
+  height: 3px;
+  background: var(--green);
+}
+
+#right-toc:hover .toc-marker {
+  width: 29px;
+}
+
+#right-toc:hover .toc-marker.active {
+  width: 35px;
+}
+
+
+/* =====================================
+   11. EXPANDED TOC PANEL
+===================================== */
+
+#toc-panel {
+  position: absolute;
+  right: 45px;
+  top: 0;
+  width: 350px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--sidebar);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  box-shadow: 0 8px 25px #0005;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(12px);
+
+  transition:
+    opacity .2s ease,
+    visibility .2s ease,
+    transform .2s ease;
+}
+
+#right-toc:hover #toc-panel,
+#right-toc:focus-within #toc-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.toc-title {
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+#toc-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#toc-links li {
+  margin: 0;
+}
+
+#toc-links a {
+  display: block;
+  padding: 9px 7px;
+  color: var(--fg);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+#toc-links a:hover {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+#toc-links .toc-h3 {
+  padding-left: 23px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+#toc-links a.active {
+  color: var(--green);
+  background: var(--green-bg);
+}
+
+#toc-empty {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+
+/* =====================================
+   12. BACK TO TOP
+===================================== */
+
+.back-to-top {
+  position: fixed;
+  right: 25px;
+  bottom: 22px;
+  padding: 9px 15px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  border-radius: 5px;
+  font-size: 13px;
+  z-index: 10;
+}
+
+.back-to-top:hover {
+  border-color: var(--green);
+  color: var(--green);
+  text-decoration: none;
+}
+
+
+/* =====================================
+   13. MOBILE
+===================================== */
+
+@media (max-width: 720px) {
+
+  body {
+    flex-direction: column;
+  }
+
+  aside {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    max-height: 300px;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  main {
+    padding: 0 16px 70px;
+  }
+
+  .topbar {
+    min-height: 52px;
+  }
+
+  .content {
+    padding-top: 20px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 21px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  #right-toc {
+    display: none;
+  }
+}
+
+
+/* =====================================
+   14. PRINT
+===================================== */
+
+@media print {
+
+  @page {
+    margin: 1.5cm;
+  }
+
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"] {
+    --bg: #ffffff;
+    --fg: #1f2328;
+    --panel: #f6f8fa;
+    --border: #d0d7de;
+    --code: #f6f8fa;
+    --muted: #555555;
+    color-scheme: light;
+  }
+
+  body {
+    display: block;
+    background: white;
+    color: black;
+  }
+
+  aside,
+  .topbar,
+  .copy-btn,
+  .back-to-top,
+  #right-toc {
+    display: none !important;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow-x: visible;
+  }
+
+  pre,
+  blockquote,
+  tr,
+  img {
+    break-inside: avoid;
+  }
+
+  h1, h2, h3, h4 {
+    break-after: avoid;
+  }
+}
+
+</style>
 </head>
 
 
 <body id="top">
 
 
-  <!-- =====================================
-       LEFT SIDEBAR
-  ===================================== -->
+<!-- =====================================
+     LEFT SIDEBAR
+===================================== -->
 
-  <aside>
+<aside>
 
-    <div class="sidebar-header">
+  <div class="sidebar-header">
+    <h2>CyberGrayMan</h2>
+    <div class="sidebar-subtitle">
+      Cybersecurity Knowledge Base
+    </div>
+  </div>
 
-      <h2>CyberGrayMan</h2>
+  <div class="nav-heading">
+    Navigation
+  </div>
 
-      <div class="sidebar-subtitle">
-        Cybersecurity Knowledge Base
-      </div>
+  <ul>
+
+    <li>
+      <a href="{{ '/' | relative_url }}"
+         {% if page.url == '/' %}class="active"{% endif %}>
+        <span class="nav-icon">⌂</span>
+        Home
+      </a>
+    </li>
+
+    {% assign sorted_pages = site.html_pages | sort: "title" %}
+
+    {% for item in sorted_pages %}
+
+      {% unless item.name == "index.md"
+        or item.name == "index.html"
+        or item.name == "404.html" %}
+
+        <li>
+          <a href="{{ item.url | relative_url }}"
+             {% if page.url == item.url %}class="active"{% endif %}>
+            <span class="nav-icon">▤</span>
+            {{ item.title | default: item.name }}
+          </a>
+        </li>
+
+      {% endunless %}
+
+    {% endfor %}
+
+  </ul>
+
+  <div class="sidebar-footer">
+    CyberGrayMan<br>
+    Cybersecurity | DFIR | CTF
+  </div>
+
+</aside>
+
+
+<!-- =====================================
+     MAIN CONTENT
+===================================== -->
+
+<main>
+
+  <div class="topbar">
+
+    <div class="topbar-actions">
+
+      <button type="button"
+              id="theme-toggle"
+              class="theme-toggle">
+        Light Mode
+      </button>
+
+      <button type="button"
+              id="print-page"
+              class="print-btn">
+        Print / PDF
+      </button>
 
     </div>
 
+  </div>
 
-    <div class="nav-heading">
-      Navigation
+  <div class="content">
+    {{ content }}
+  </div>
+
+</main>
+
+
+<!-- =====================================
+     RIGHT SIDE DYNAMIC PAGE MAP
+===================================== -->
+
+<nav id="right-toc" aria-label="Page navigation">
+
+  <div id="toc-indicator"></div>
+
+  <div id="toc-panel">
+
+    <div class="toc-title">
+      ON THIS PAGE
     </div>
 
+    <ul id="toc-links"></ul>
 
-    <ul>
-
-      <li>
-        <a href="{{ '/' | relative_url }}"
-           {% if page.url == '/' %}class="active"{% endif %}>
-          <span class="nav-icon">⌂</span>
-          Home
-        </a>
-      </li>
-
-
-      {% assign sorted_pages = site.html_pages | sort: "title" %}
-
-      {% for item in sorted_pages %}
-
-        {% unless item.name == "index.md"
-          or item.name == "index.html"
-          or item.name == "404.html" %}
-
-          <li>
-
-            <a href="{{ item.url | relative_url }}"
-               {% if page.url == item.url %}class="active"{% endif %}>
-
-              <span class="nav-icon">▤</span>
-              {{ item.title | default: item.name }}
-
-            </a>
-
-          </li>
-
-        {% endunless %}
-
-      {% endfor %}
-
-    </ul>
-
-
-    <div class="sidebar-footer">
-      CyberGrayMan<br>
-      Cybersecurity | DFIR | CTF
+    <div id="toc-empty" hidden>
+      No section headings found.
     </div>
 
-  </aside>
+  </div>
+
+</nav>
 
 
+<!-- BACK TO TOP -->
 
-  <!-- =====================================
-       MAIN CONTENT
-  ===================================== -->
-
-  <main>
-
-    <!-- TOP BAR: ACTIONS ONLY -->
-    <!-- Page title appears in Markdown content, not here -->
-
-    <div class="topbar">
-
-      <div class="topbar-actions">
-
-        <button
-          type="button"
-          id="theme-toggle"
-          class="theme-toggle">
-          Light Mode
-        </button>
-
-        <button
-          type="button"
-          id="print-page"
-          class="print-btn">
-          Print / PDF
-        </button>
-
-      </div>
-
-    </div>
+<a href="#top" class="back-to-top">
+  ↑ Top
+</a>
 
 
-    <!-- MARKDOWN PAGE CONTENT -->
+<!-- =====================================
+     JAVASCRIPT
+===================================== -->
 
-    <div class="content">
-      {{ content }}
-    </div>
-
-  </main>
+<script>
 
 
+/* =====================================
+   1. DARK / LIGHT MODE
+===================================== */
 
-  <!-- =====================================
-       RIGHT SIDE TABLE OF CONTENTS
-       STATIC POSITION
-  ===================================== -->
+const toggleBtn = document.getElementById('theme-toggle');
 
-  <nav id="right-toc" aria-label="Page contents">
+function syncToggleLabel() {
 
-    <div id="toc-indicator" aria-label="Open page navigation">
+  const dark =
+    document.documentElement.getAttribute('data-theme') === 'dark';
 
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+  toggleBtn.textContent = dark ? 'Light Mode' : 'Dark Mode';
 
-    </div>
+}
 
+syncToggleLabel();
 
-    <div id="toc-panel">
+toggleBtn.addEventListener('click', () => {
 
-      <div class="toc-title">
-        ON THIS PAGE
-      </div>
+  const current =
+    document.documentElement.getAttribute('data-theme');
 
-      <ul id="toc-links"></ul>
+  const next = current === 'dark' ? 'light' : 'dark';
 
-      <div id="toc-empty" hidden>
-        No section headings found.
-      </div>
+  document.documentElement.setAttribute('data-theme', next);
 
-    </div>
+  localStorage.setItem('theme', next);
 
-  </nav>
+  syncToggleLabel();
+
+});
 
 
+/* =====================================
+   2. PRINT / PDF
+===================================== */
 
-  <!-- =====================================
-       BACK TO TOP
-  ===================================== -->
-
-  <a href="#top" class="back-to-top">
-    ↑ Top
-  </a>
-
+document.getElementById('print-page').addEventListener('click', () => {
+  window.print();
+});
 
 
-  <!-- =====================================
-       JAVASCRIPT
-  ===================================== -->
+/* =====================================
+   3. COPY CODE BUTTONS
+===================================== */
 
-  <script>
+document.querySelectorAll('.content pre').forEach((pre) => {
 
+  const wrapper = document.createElement('div');
+  wrapper.className = 'code-wrapper';
 
-    /* =====================================
-       1. DARK / LIGHT MODE
-    ===================================== */
+  pre.parentNode.insertBefore(wrapper, pre);
+  wrapper.appendChild(pre);
 
-    const toggleBtn =
-      document.getElementById('theme-toggle');
+  const btn = document.createElement('button');
 
-    function syncToggleLabel() {
+  btn.type = 'button';
+  btn.className = 'copy-btn';
+  btn.textContent = 'Copy';
 
-      const dark =
-        document.documentElement.getAttribute('data-theme') === 'dark';
+  btn.addEventListener('click', async () => {
 
-      toggleBtn.textContent =
-        dark ? 'Light Mode' : 'Dark Mode';
+    try {
+
+      await navigator.clipboard.writeText(pre.innerText);
+
+      btn.textContent = 'Copied!';
+
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+      }, 1800);
+
+    } catch (error) {
+
+      btn.textContent = 'Copy failed';
 
     }
 
-    syncToggleLabel();
+  });
 
-    toggleBtn.addEventListener('click', () => {
+  wrapper.appendChild(btn);
 
-      const current =
-        document.documentElement.getAttribute('data-theme');
+});
 
-      const next =
-        current === 'dark' ? 'light' : 'dark';
 
-      document.documentElement.setAttribute('data-theme', next);
+/* =====================================
+   4. DYNAMIC TABLE OF CONTENTS
+   H2 AND H3 ONLY
+===================================== */
 
-      localStorage.setItem('theme', next);
+const tocList = document.getElementById('toc-links');
+const tocEmpty = document.getElementById('toc-empty');
+const tocIndicator = document.getElementById('toc-indicator');
 
-      syncToggleLabel();
+const headings = Array.from(
+  document.querySelectorAll('.content h2, .content h3')
+);
 
+const tocItems = [];
+
+
+headings.forEach((heading, index) => {
+
+  // Preserve existing IDs
+
+  if (!heading.id) {
+    heading.id = 'section-' + index;
+  }
+
+  const li = document.createElement('li');
+  const link = document.createElement('a');
+
+  link.href = '#' + heading.id;
+  link.textContent = heading.textContent.trim();
+
+  if (heading.tagName === 'H3') {
+    link.classList.add('toc-h3');
+  }
+
+  li.appendChild(link);
+  tocList.appendChild(li);
+
+  // Create one indicator for each heading
+
+  const marker = document.createElement('button');
+
+  marker.type = 'button';
+  marker.className = 'toc-marker';
+
+  marker.setAttribute('aria-label', heading.textContent.trim());
+  marker.title = heading.textContent.trim();
+
+  marker.addEventListener('click', () => {
+
+    heading.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
     });
 
+  });
 
+  tocIndicator.appendChild(marker);
 
-    /* =====================================
-       2. PRINT / SAVE AS PDF
-    ===================================== */
+  tocItems.push({
+    heading,
+    link,
+    marker
+  });
 
-    document
-      .getElementById('print-page')
-      .addEventListener('click', () => {
+});
 
-        window.print();
 
-      });
+if (headings.length === 0) {
+  tocEmpty.hidden = false;
+}
 
 
+/* =====================================
+   5. POSITION LINES ACCORDING TO
+      ACTUAL HEADING LOCATIONS
+===================================== */
 
-    /* =====================================
-       3. COPY CODE BUTTONS
-    ===================================== */
+function positionMarkers() {
 
-    document.querySelectorAll('.content pre').forEach((pre) => {
+  if (!headings.length) return;
 
-      const wrapper = document.createElement('div');
+  const documentHeight = Math.max(
+    1,
+    document.documentElement.scrollHeight
+  );
 
-      wrapper.className = 'code-wrapper';
+  const railHeight = tocIndicator.clientHeight;
 
-      pre.parentNode.insertBefore(wrapper, pre);
+  const usableHeight = Math.max(1, railHeight - 10);
 
-      wrapper.appendChild(pre);
+  tocItems.forEach((item) => {
 
+    const headingPosition =
+      item.heading.getBoundingClientRect().top + window.scrollY;
 
-      const btn = document.createElement('button');
+    const percentage =
+      Math.min(1, Math.max(0, headingPosition / documentHeight));
 
-      btn.type = 'button';
+    const position = 5 + percentage * usableHeight;
 
-      btn.className = 'copy-btn';
+    item.marker.style.top = position + 'px';
 
-      btn.textContent = 'Copy';
+  });
 
+}
 
-      btn.addEventListener('click', async () => {
 
-        try {
+/* =====================================
+   6. CURRENT READING POSITION
+===================================== */
 
-          await navigator.clipboard.writeText(pre.innerText);
+function updateActiveHeading() {
 
-          btn.textContent = 'Copied!';
+  if (!tocItems.length) return;
 
-          setTimeout(() => {
+  // Find the last heading that has passed
+  // the reading reference point.
 
-            btn.textContent = 'Copy';
+  const readingPosition = window.scrollY + window.innerHeight * 0.30;
 
-          }, 1800);
+  let activeIndex = 0;
 
-        } catch (error) {
+  tocItems.forEach((item, index) => {
 
-          btn.textContent = 'Copy failed';
+    const headingTop =
+      item.heading.getBoundingClientRect().top + window.scrollY;
 
-        }
-
-      });
-
-      wrapper.appendChild(btn);
-
-    });
-
-
-
-    /* =====================================
-       4. AUTOMATIC RIGHT SIDE TOC
-       H2 AND H3 ONLY
-    ===================================== */
-
-    const tocList =
-      document.getElementById('toc-links');
-
-    const tocEmpty =
-      document.getElementById('toc-empty');
-
-
-    // Exclude H1 because it is the main page title.
-    // This prevents the page title appearing again in the TOC.
-
-    const headings = document.querySelectorAll(
-      '.content h2, .content h3'
-    );
-
-
-    if (tocList) {
-
-      headings.forEach((heading, index) => {
-
-        // Preserve existing heading IDs.
-
-        if (!heading.id) {
-
-          heading.id = 'section-' + index;
-
-        }
-
-
-        const li = document.createElement('li');
-
-        const link = document.createElement('a');
-
-        link.href = '#' + heading.id;
-
-        link.textContent = heading.textContent.trim();
-
-
-        // Indent H3 subheadings.
-
-        if (heading.tagName === 'H3') {
-
-          link.classList.add('toc-h3');
-
-        }
-
-
-        // Click navigation.
-
-        link.addEventListener('click', () => {
-
-          document.querySelectorAll('#toc-links a')
-            .forEach(a => a.classList.remove('active'));
-
-          link.classList.add('active');
-
-        });
-
-
-        li.appendChild(link);
-
-        tocList.appendChild(li);
-
-      });
-
-
-      // Empty TOC message.
-
-      if (headings.length === 0) {
-
-        tocEmpty.hidden = false;
-
-      }
-
-
-
-      /* =====================================
-         5. HIGHLIGHT CURRENT SECTION
-      ===================================== */
-
-      if ('IntersectionObserver' in window) {
-
-        const observer = new IntersectionObserver(
-          (entries) => {
-
-            entries.forEach(entry => {
-
-              if (entry.isIntersecting) {
-
-                document.querySelectorAll('#toc-links a')
-                  .forEach(a => a.classList.remove('active'));
-
-                const active = Array.from(
-                  document.querySelectorAll('#toc-links a')
-                ).find(a =>
-                  a.getAttribute('href') === '#' + entry.target.id
-                );
-
-                if (active) {
-
-                  active.classList.add('active');
-
-                }
-
-              }
-
-            });
-
-          },
-          {
-            rootMargin: '-10% 0px -80% 0px'
-          }
-        );
-
-
-        headings.forEach(heading => {
-
-          observer.observe(heading);
-
-        });
-
-      }
-
+    if (headingTop <= readingPosition) {
+      activeIndex = index;
     }
 
-  </script>
+  });
+
+  tocItems.forEach((item, index) => {
+
+    const active = index === activeIndex;
+
+    item.marker.classList.toggle('active', active);
+    item.link.classList.toggle('active', active);
+
+  });
+
+}
+
+
+/* =====================================
+   7. UPDATE PAGE MAP
+===================================== */
+
+let updateScheduled = false;
+
+function updatePageMap() {
+
+  if (updateScheduled) return;
+
+  updateScheduled = true;
+
+  requestAnimationFrame(() => {
+
+    positionMarkers();
+    updateActiveHeading();
+
+    updateScheduled = false;
+
+  });
+
+}
+
+
+// Update when user scrolls
+
+window.addEventListener('scroll', updatePageMap, {
+  passive: true
+});
+
+
+// Update when window changes size
+
+window.addEventListener('resize', updatePageMap);
+
+
+// Update when images or other content change page height
+
+if ('ResizeObserver' in window) {
+
+  const contentObserver = new ResizeObserver(updatePageMap);
+
+  const content = document.querySelector('.content');
+
+  if (content) {
+    contentObserver.observe(content);
+  }
+
+}
+
+
+// Recalculate after images finish loading
+
+document.querySelectorAll('.content img').forEach(img => {
+
+  if (!img.complete) {
+    img.addEventListener('load', updatePageMap);
+    img.addEventListener('error', updatePageMap);
+  }
+
+});
+
+
+// Initial calculation
+
+window.addEventListener('load', updatePageMap);
+
+updatePageMap();
+
+
+</script>
 
 </body>
 </html>
