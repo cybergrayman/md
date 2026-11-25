@@ -12,8 +12,10 @@
   <script>
     (function () {
       const saved = localStorage.getItem('theme');
-      const theme = saved || 'dark';
-      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.setAttribute(
+        'data-theme',
+        saved || 'dark'
+      );
     })();
   </script>
 
@@ -151,12 +153,6 @@
       color: var(--muted);
     }
 
-    .nav-divider {
-      border: 0;
-      border-top: 1px solid var(--border);
-      margin: 20px 0;
-    }
-
     .sidebar-footer {
       border-top: 1px solid var(--border);
       margin-top: 25px;
@@ -167,7 +163,7 @@
 
 
     /* =====================================
-       3. MAIN CONTENT AREA
+       3. MAIN CONTENT
     ===================================== */
 
     main {
@@ -405,7 +401,7 @@
 
 
     /* =====================================
-       10. RIGHT SIDE COLLAPSIBLE TOC
+       10. RIGHT SIDE MOVING INDICATOR
     ===================================== */
 
     #right-toc {
@@ -415,9 +411,11 @@
       z-index: 100;
       display: flex;
       align-items: flex-start;
+      will-change: top;
+      transition: top .15s ease-out;
     }
 
-    /* Vertical indicator lines */
+    /* Collapsed vertical lines */
 
     #toc-indicator {
       width: 45px;
@@ -444,7 +442,10 @@
       width: 34px;
     }
 
-    /* Expanded navigation panel */
+
+    /* =====================================
+       11. EXPANDED RIGHT TOC PANEL
+    ===================================== */
 
     #toc-panel {
       position: absolute;
@@ -520,8 +521,6 @@
       background: var(--green-bg);
     }
 
-    /* Empty TOC */
-
     #toc-empty {
       color: var(--muted);
       font-size: 12px;
@@ -529,7 +528,7 @@
 
 
     /* =====================================
-       11. BACK TO TOP
+       12. BACK TO TOP
     ===================================== */
 
     .back-to-top {
@@ -553,7 +552,7 @@
 
 
     /* =====================================
-       12. MOBILE RESPONSIVE
+       13. MOBILE RESPONSIVE
     ===================================== */
 
     @media (max-width: 720px) {
@@ -605,7 +604,7 @@
 
 
     /* =====================================
-       13. PRINT / SAVE AS PDF
+       14. PRINT
     ===================================== */
 
     @media print {
@@ -664,6 +663,7 @@
     }
 
   </style>
+
 </head>
 
 
@@ -672,7 +672,7 @@
 
   <!-- =====================================
        LEFT SIDEBAR
-  ====================================== -->
+  ===================================== -->
 
   <aside>
 
@@ -697,10 +697,8 @@
       <li>
         <a href="{{ '/' | relative_url }}"
            {% if page.url == '/' %}class="active"{% endif %}>
-
           <span class="nav-icon">⌂</span>
           Home
-
         </a>
       </li>
 
@@ -719,7 +717,6 @@
                {% if page.url == item.url %}class="active"{% endif %}>
 
               <span class="nav-icon">▤</span>
-
               {{ item.title | default: item.name }}
 
             </a>
@@ -734,10 +731,8 @@
 
 
     <div class="sidebar-footer">
-
       CyberGrayMan<br>
       Cybersecurity | DFIR | CTF
-
     </div>
 
   </aside>
@@ -746,7 +741,7 @@
 
   <!-- =====================================
        MAIN CONTENT
-  ====================================== -->
+  ===================================== -->
 
   <main>
 
@@ -756,11 +751,8 @@
     <div class="topbar">
 
       <div class="topbar-title">
-
         {{ page.title | default: site.title | default: "CyberGrayMan" }}
-
       </div>
-
 
       <div class="topbar-actions">
 
@@ -768,19 +760,14 @@
           type="button"
           id="theme-toggle"
           class="theme-toggle">
-
           Light Mode
-
         </button>
-
 
         <button
           type="button"
           id="print-page"
           class="print-btn">
-
           Print / PDF
-
         </button>
 
       </div>
@@ -788,15 +775,11 @@
     </div>
 
 
-
-    <!-- MARKDOWN CONTENT -->
+    <!-- PAGE CONTENT -->
 
     <div class="content">
-
       {{ content }}
-
     </div>
-
 
   </main>
 
@@ -804,12 +787,11 @@
 
   <!-- =====================================
        RIGHT SIDE TABLE OF CONTENTS
-  ====================================== -->
+  ===================================== -->
 
   <nav id="right-toc" aria-label="Page contents">
 
-
-    <!-- Collapsed indicator lines -->
+    <!-- Vertical indicator -->
 
     <div id="toc-indicator" aria-label="Open page navigation">
 
@@ -824,7 +806,7 @@
     </div>
 
 
-    <!-- Expanded TOC panel -->
+    <!-- Expanded navigation panel -->
 
     <div id="toc-panel">
 
@@ -846,7 +828,7 @@
 
   <!-- =====================================
        BACK TO TOP
-  ====================================== -->
+  ===================================== -->
 
   <a href="#top" class="back-to-top">
     ↑ Top
@@ -856,7 +838,7 @@
 
   <!-- =====================================
        JAVASCRIPT
-  ====================================== -->
+  ===================================== -->
 
   <script>
 
@@ -868,7 +850,6 @@
     const toggleBtn =
       document.getElementById('theme-toggle');
 
-
     function syncToggleLabel() {
 
       const dark =
@@ -879,9 +860,7 @@
 
     }
 
-
     syncToggleLabel();
-
 
     toggleBtn.addEventListener('click', () => {
 
@@ -961,7 +940,6 @@
 
       });
 
-
       wrapper.appendChild(btn);
 
     });
@@ -969,7 +947,7 @@
 
 
     /* =====================================
-       4. AUTOMATIC RIGHT SIDE TABLE OF CONTENTS
+       4. AUTOMATIC RIGHT SIDE TOC
     ===================================== */
 
     const tocList =
@@ -978,18 +956,20 @@
     const tocEmpty =
       document.getElementById('toc-empty');
 
+    const rightToc =
+      document.getElementById('right-toc');
+
+
+    const headings = document.querySelectorAll(
+      '.content h1, .content h2, .content h3'
+    );
+
 
     if (tocList) {
 
-      const headings = document.querySelectorAll(
-        '.content h1, .content h2, .content h3'
-      );
-
-
       headings.forEach((heading, index) => {
 
-        // Preserve existing heading IDs.
-        // Generate an ID only when missing.
+        // Preserve existing heading IDs
 
         if (!heading.id) {
 
@@ -998,12 +978,9 @@
         }
 
 
-        // Create navigation item
-
         const li = document.createElement('li');
 
         const link = document.createElement('a');
-
 
         link.href = '#' + heading.id;
 
@@ -1019,7 +996,7 @@
         }
 
 
-        // Navigate to heading
+        // Click heading navigation
 
         link.addEventListener('click', () => {
 
@@ -1038,8 +1015,6 @@
       });
 
 
-      // Show empty message if no headings exist
-
       if (headings.length === 0) {
 
         tocEmpty.hidden = false;
@@ -1047,8 +1022,9 @@
       }
 
 
+
       /* =====================================
-         5. ACTIVE HEADING HIGHLIGHT
+         5. HIGHLIGHT CURRENT HEADING
       ===================================== */
 
       if ('IntersectionObserver' in window) {
@@ -1063,11 +1039,9 @@
                 document.querySelectorAll('#toc-links a')
                   .forEach(a => a.classList.remove('active'));
 
-
                 const active = document.querySelector(
                   '#toc-links a[href="#' + entry.target.id + '"]'
                 );
-
 
                 if (active) {
 
@@ -1095,6 +1069,95 @@
       }
 
     }
+
+
+
+    /* =====================================
+       6. MOVING RIGHT SIDE INDICATOR
+    ===================================== */
+
+    function moveRightIndicator() {
+
+      if (!rightToc) return;
+
+      const scrollTop = window.scrollY;
+
+      const documentHeight =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+      // Calculate page reading progress
+
+      const progress = documentHeight > 0
+        ? Math.min(1, Math.max(0, scrollTop / documentHeight))
+        : 0;
+
+
+      // Indicator movement boundaries
+
+      const minPosition = window.innerHeight * 0.12;
+
+      const maxPosition =
+        Math.max(
+          minPosition,
+          window.innerHeight * 0.80 -
+          rightToc.offsetHeight
+        );
+
+
+      // Calculate vertical position
+
+      const newPosition =
+        minPosition +
+        (maxPosition - minPosition) * progress;
+
+
+      rightToc.style.top = newPosition + 'px';
+
+    }
+
+
+    // Move indicator when scrolling
+
+    window.addEventListener(
+      'scroll',
+      moveRightIndicator,
+      { passive: true }
+    );
+
+
+    // Recalculate on window resizing
+
+    window.addEventListener(
+      'resize',
+      moveRightIndicator
+    );
+
+
+    // Recalculate when page content changes
+
+    if ('ResizeObserver' in window) {
+
+      const contentObserver = new ResizeObserver(() => {
+
+        moveRightIndicator();
+
+      });
+
+      const content = document.querySelector('.content');
+
+      if (content) {
+
+        contentObserver.observe(content);
+
+      }
+
+    }
+
+
+    // Initial position
+
+    moveRightIndicator();
 
 
   </script>
