@@ -1,4 +1,4 @@
-# Splunk DFIR Hunting Cheatsheet
+# Splunk DFIR Hunting  
 
 ### Windows, PowerShell, authentication, persistence, file access and network pivots
 
