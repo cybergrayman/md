@@ -17,7 +17,8 @@
   Display a file                      `cat filename`
 
   Search printable strings for a      `strings home.jpg \| grep Henchman`
-  keyword                             
+  keyword                       
+  
   -------------------------------------------------------------------------------------
 
 ## FILE & DIRECTORY OPERATIONS
@@ -36,6 +37,7 @@
   Copy a file to a directory          `cp /var/backups/encoded.hex /home/assistant/toolbox/`
 
   Compare two files                   `diff file1.txt file2.txt`
+  
   --------------------------------------------------------------------------------------------
 
 ## ENCODING & EXECUTABLES
@@ -58,6 +60,7 @@
 
   Run ExifTool directly (challenge    `/usr/bin/exiftool home.jpg`
   path; verify it exists)             
+  
   -----------------------------------------------------------------------
 
 ## NETWORK & SERVICES
@@ -81,6 +84,7 @@
 
   Allow curl to accept HTTP/0.9       `curl --http0.9 localhost:9000`
   response                            
+  
   -----------------------------------------------------------------------
 
 ## PROCESS INVESTIGATION
@@ -98,7 +102,8 @@
   service                             
 
   Extract a gzip-compressed tar       `tar -xvzf archive.tar.gz`
-  archive                             
+  archive                 
+  
   --------------------------------------------------------------------------------------------------
 
 ## NETCAT & SHELL SCRIPTS
@@ -117,6 +122,7 @@
   directory                           
 
   Disconnect / stop a running command `Ctrl + C`
+  
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------
