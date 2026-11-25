@@ -766,12 +766,8 @@ img {
 
     <div class="nav-heading">Navigation</div>
 
-    {% assign nav_pages = site.html_pages
-       | where_exp: "p", "p.name != 'index.md' and p.name != 'index.html' and p.name != '404.html'"
-       | where_exp: "p", "p.nav_exclude != true" %}
-    {% assign ordered   = nav_pages | where_exp: "p", "p.nav_order" | sort: "nav_order" %}
-    {% assign unordered = nav_pages | where_exp: "p", "p.nav_order == nil" | sort: "title" %}
-    {% assign nav_pages = ordered | concat: unordered %}
+    {% assign by_order = site.html_pages | sort: "nav_order" %}
+    {% assign by_title = site.html_pages | sort: "title" %}
 
     <ul>
 
@@ -782,13 +778,24 @@ img {
         </a>
       </li>
 
-      {% for item in nav_pages %}
+      {% for item in by_order %}
+        {% if item.nav_order and item.nav_exclude != true and item.name != "index.md" and item.name != "index.html" and item.name != "404.html" %}
       <li>
-        <a href="{{ item.url | relative_url }}"
-           {% if page.url == item.url %}class="active" aria-current="page"{% endif %}>
+        <a href="{{ item.url | relative_url }}" {% if page.url == item.url %}class="active" aria-current="page"{% endif %}>
           <span class="nav-icon" aria-hidden="true">{{ item.nav_icon | default: "▤" }}</span>{{ item.title | default: item.name }}
         </a>
       </li>
+        {% endif %}
+      {% endfor %}
+
+      {% for item in by_title %}
+        {% if item.nav_order == nil and item.nav_exclude != true and item.name != "index.md" and item.name != "index.html" and item.name != "404.html" %}
+      <li>
+        <a href="{{ item.url | relative_url }}" {% if page.url == item.url %}class="active" aria-current="page"{% endif %}>
+          <span class="nav-icon" aria-hidden="true">{{ item.nav_icon | default: "▤" }}</span>{{ item.title | default: item.name }}
+        </a>
+      </li>
+        {% endif %}
       {% endfor %}
 
     </ul>
