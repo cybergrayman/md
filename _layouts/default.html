@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,37 +6,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% assign site_name = site.title | default: "CyberGrayMan" %}
-{% assign page_desc = page.description | default: site.description | default: "Cybersecurity, DFIR and CTF knowledge base." %}
+<title>{{ page.title | default: site.title | default: "CyberGrayMan" }}</title>
 
-<title>{% if page.title and page.title != site_name %}{{ page.title }} | {{ site_name }}{% else %}{{ site_name }}{% endif %}</title>
-<meta name="description" content="{{ page_desc | strip_html | strip_newlines | escape }}">
-<link rel="canonical" href="{{ page.url | absolute_url }}">
-<meta name="theme-color" content="#18191d">
-
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="{{ site_name | escape }}">
-<meta property="og:title" content="{{ page.title | default: site_name | escape }}">
-<meta property="og:description" content="{{ page_desc | strip_html | strip_newlines | escape }}">
-<meta property="og:url" content="{{ page.url | absolute_url }}">
-
-<!-- Inline favicon (replace with /favicon.ico if you have one) -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2318191d'/%3E%3Cpath d='M16 5l9 3v7c0 6-4 10-9 12-5-2-9-6-9-12V8z' fill='none' stroke='%2300c878' stroke-width='2'/%3E%3C/svg%3E">
-
-<!-- Apply saved theme before paint (no flash). Safe if storage is blocked. -->
 <script>
 (function () {
-  var saved = null;
-  try { saved = localStorage.getItem('theme'); } catch (e) {}
-  document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+  const saved = localStorage.getItem('theme');
+  document.documentElement.setAttribute('data-theme', saved || 'dark');
 })();
 </script>
 
 <style>
 
 /* =====================================
-   1. THEME
+   1. THEME COLORS
 ===================================== */
 
 :root {
@@ -47,10 +30,8 @@
   --border: #414147;
   --green: #00c878;
   --green-bg: #153127;
-  --blue: #00aaff;
+  --blue: #00d5b0;
   --code: #111318;
-  --shadow: rgba(0, 0, 0, .45);
-  --sidebar-w: 283px;
   color-scheme: dark;
 }
 
@@ -59,22 +40,22 @@ html[data-theme="light"] {
   --sidebar: #f6f7f9;
   --panel: #f0f1f3;
   --fg: #242424;
-  --muted: #5f6368;
+  --muted: #666666;
   --border: #d4d4d8;
-  --green: #007a4d;
+  --green: #008c59;
   --green-bg: #dff5e9;
-  --blue: #006aa8;
+  --blue: #008f79;
   --code: #f1f2f4;
-  --shadow: rgba(0, 0, 0, .15);
   color-scheme: light;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 20px;
-  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 25px;
 }
 
 body {
@@ -82,35 +63,8 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--fg);
-  font: 16px/1.75 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font: 16px/1.75 system-ui, -apple-system, sans-serif;
   display: flex;
-}
-
-:focus-visible {
-  outline: 2px solid var(--blue);
-  outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  * { transition: none !important; }
-}
-
-/* Skip link */
-.skip-link {
-  position: absolute;
-  left: 12px;
-  top: -60px;
-  z-index: 1000;
-  background: var(--green);
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 5px;
-  font-weight: 700;
-}
-.skip-link:focus {
-  top: 12px;
-  text-decoration: none;
 }
 
 
@@ -118,9 +72,9 @@ body {
    2. LEFT SIDEBAR
 ===================================== */
 
-aside#sidebar {
-  width: var(--sidebar-w);
-  min-width: var(--sidebar-w);
+aside {
+  width: 283px;
+  min-width: 283px;
   height: 100vh;
   position: sticky;
   top: 0;
@@ -139,13 +93,8 @@ aside#sidebar {
 .sidebar-header h2 {
   font-size: 21px;
   margin: 0;
-  padding: 0;
-  border: 0;
   font-weight: 700;
 }
-
-.sidebar-header a { color: var(--fg); }
-.sidebar-header a:hover { text-decoration: none; color: var(--green); }
 
 .sidebar-subtitle {
   font-size: 13px;
@@ -168,9 +117,11 @@ aside ul {
   margin: 0;
 }
 
-aside li { margin-bottom: 4px; }
+aside li {
+  margin-bottom: 4px;
+}
 
-aside nav a {
+aside a {
   display: block;
   padding: 11px 13px;
   border-radius: 5px;
@@ -180,12 +131,12 @@ aside nav a {
   transition: background .2s, color .2s;
 }
 
-aside nav a:hover {
+aside a:hover {
   background: var(--panel);
   color: var(--blue);
 }
 
-aside nav a.active {
+aside a.active {
   background: var(--green-bg);
   color: var(--green);
   font-weight: 700;
@@ -205,11 +156,9 @@ aside nav a.active {
   font-size: 13px;
 }
 
-.nav-overlay { display: none; }
-
 
 /* =====================================
-   3. MAIN CONTENT
+   3. MAIN CONTENT AREA
 ===================================== */
 
 main {
@@ -218,15 +167,13 @@ main {
   padding: 0 40px 80px;
 }
 
-main:focus { outline: none; }
-
 .topbar {
   max-width: 1100px;
   margin: 0 auto;
   min-height: 57px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   border-bottom: 1px solid var(--border);
 }
 
@@ -234,27 +181,20 @@ main:focus { outline: none; }
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-left: auto;
 }
 
-.menu-btn { display: none; }
-
 .theme-toggle,
-.print-btn,
-.menu-btn {
+.print-btn {
   border: 0;
   background: transparent;
   color: var(--fg);
-  font: inherit;
   font-size: 14px;
   cursor: pointer;
   padding: 8px 10px;
-  border-radius: 5px;
 }
 
 .theme-toggle:hover,
-.print-btn:hover,
-.menu-btn:hover {
+.print-btn:hover {
   color: var(--blue);
 }
 
@@ -289,34 +229,37 @@ h2 {
   border-bottom: 1px solid var(--border);
 }
 
-h3 { font-size: 20px; margin-top: 28px; }
-h4 { font-size: 17px; }
+h3 {
+  font-size: 20px;
+  margin-top: 28px;
+}
 
-p { font-size: 16px; margin: 14px 0; }
+h4 {
+  font-size: 17px;
+}
 
-a { color: var(--blue); text-decoration: none; }
-a:hover { text-decoration: underline; }
+p {
+  font-size: 16px;
+  margin: 14px 0;
+}
 
-strong { color: var(--fg); }
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+strong {
+  color: var(--fg);
+}
 
 hr {
   border: 0;
   border-top: 1px solid var(--border);
   margin: 25px 0;
-}
-
-/* Heading permalink anchors */
-.heading-anchor {
-  margin-left: 8px;
-  font-weight: 400;
-  color: var(--muted);
-  opacity: 0;
-  transition: opacity .15s;
-}
-h2:hover .heading-anchor,
-h3:hover .heading-anchor,
-.heading-anchor:focus {
-  opacity: 1;
 }
 
 
@@ -325,14 +268,18 @@ h3:hover .heading-anchor,
 ===================================== */
 
 .content ul,
-.content ol { padding-left: 27px; }
+.content ol {
+  padding-left: 27px;
+}
 
 .content li {
   font-size: 16px;
   margin-bottom: 9px;
 }
 
-.content li::marker { color: var(--muted); }
+.content li::marker {
+  color: var(--muted);
+}
 
 
 /* =====================================
@@ -354,12 +301,21 @@ th, td {
 }
 
 th {
-  background: var(--panel);
+  background: #292a2e;
   font-weight: 700;
 }
 
-tbody tr:nth-child(even) { background: var(--panel); }
-tbody tr:hover { background: var(--green-bg); }
+html[data-theme="light"] th {
+  background: #e9eaed;
+}
+
+tr:nth-child(even) {
+  background: var(--panel);
+}
+
+tr:hover {
+  background: var(--green-bg);
+}
 
 
 /* =====================================
@@ -376,7 +332,6 @@ pre {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 19px;
-  margin: 0;
   overflow-x: auto;
   font-size: 14px;
   line-height: 1.75;
@@ -384,7 +339,7 @@ pre {
 }
 
 code {
-  font-family: ui-monospace, SFMono-Regular, Consolas, Monaco, "Courier New", monospace;
+  font-family: Consolas, Monaco, "Courier New", monospace;
   font-size: .95em;
 }
 
@@ -394,7 +349,6 @@ code {
   border-radius: 4px;
   padding: 3px 6px;
   color: var(--green);
-  overflow-wrap: anywhere;
 }
 
 .copy-btn {
@@ -428,9 +382,6 @@ blockquote {
   color: var(--muted);
 }
 
-blockquote > :first-child { margin-top: 0; }
-blockquote > :last-child { margin-bottom: 0; }
-
 
 /* =====================================
    9. IMAGES
@@ -444,135 +395,95 @@ img {
 
 
 /* =====================================
-   10. RIGHT SIDE DYNAMIC PAGE MAP
+   10. RIGHT TABLE OF CONTENTS
 ===================================== */
 
 #right-toc {
-  position: fixed;
-  right: 0;
-  top: 12%;
-  width: 45px;
-  z-index: 100;
-  transition: top .2s ease-out;
-}
-
-#toc-indicator {
-  width: 45px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 5px 10px 5px 0;
-  cursor: pointer;
-  border-radius: 5px 0 0 5px;
-}
-
-/* Each marker is a 12px tall hit area with a thin visible line */
-.toc-marker {
-  position: relative;
-  display: block;
-  flex: 0 0 12px;
-  width: 100%;
-  height: 12px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-.toc-marker::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  width: 19px;
-  height: 2px;
-  background: var(--blue);
-  transform: translateY(-50%);
-  transition: width .2s, height .2s, background .2s;
-}
-
-.toc-marker:nth-child(even)::after { background: var(--green); }
-
-.toc-marker.active::after {
-  width: 31px;
-  height: 3px;
-  background: var(--green);
-}
-
-#right-toc:hover .toc-marker::after,
-#right-toc:focus-within .toc-marker::after { width: 29px; }
-
-#right-toc:hover .toc-marker.active::after,
-#right-toc:focus-within .toc-marker.active::after { width: 35px; }
-
-/* Expanded panel (vertical position is clamped by JS so it never leaves the screen) */
-#toc-panel {
-  position: absolute;
-  right: 45px;
+  width: 300px;
+  min-width: 300px;
+  height: 100vh;
+  position: sticky;
   top: 0;
-  width: 350px;
-  max-width: calc(100vw - 80px);
-  max-height: calc(100vh - 30px);
+  align-self: flex-start;
   overflow-y: auto;
-  padding: 20px;
-  background: var(--sidebar);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  box-shadow: 0 8px 25px var(--shadow);
-
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(12px);
-  transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+  border-left: 1px solid var(--border);
+  padding: 25px 16px 30px;
+  background: var(--bg);
 }
 
-#right-toc:hover #toc-panel,
-#right-toc:focus-within #toc-panel {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
+/* Hide scrollbar but allow scrolling */
+
+#right-toc {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
 
 .toc-title {
-  font-size: 13px;
-  font-weight: 800;
-  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 700;
   color: var(--muted);
   letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
 }
+
+/* TOC list */
 
 #toc-links {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--border);
 }
 
-#toc-links li { margin: 0; }
+#toc-links li {
+  margin: 0;
+  padding: 0;
+}
 
 #toc-links a {
   display: block;
-  padding: 9px 7px;
+  padding: 7px 12px;
   color: var(--fg);
   font-size: 14px;
-  font-weight: 600;
+  line-height: 1.5;
+  font-weight: 400;
   text-decoration: none;
-  border-radius: 4px;
+  transition: color .15s ease;
 }
+
+/* H3 subheadings */
+
+#toc-links a.toc-h3 {
+  padding-left: 25px;
+  font-size: 13px;
+}
+
+/* Hover */
 
 #toc-links a:hover {
-  background: var(--green-bg);
-  color: var(--green);
+  color: var(--blue);
 }
 
-#toc-links .toc-h3 {
-  padding-left: 23px;
-  font-size: 13px;
-  font-weight: 400;
-}
+/* Active heading */
 
 #toc-links a.active {
-  color: var(--green);
-  background: var(--green-bg);
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* Active border indicator */
+
+#toc-links li:has(a.active) {
+  border-left: 2px solid var(--blue);
+  margin-left: -1px;
+}
+
+/* Empty TOC */
+
+#toc-empty {
+  color: var(--muted);
+  font-size: 13px;
 }
 
 
@@ -582,7 +493,7 @@ img {
 
 .back-to-top {
   position: fixed;
-  right: 60px;
+  right: 25px;
   bottom: 22px;
   padding: 9px 15px;
   background: var(--panel);
@@ -601,82 +512,80 @@ img {
 
 
 /* =====================================
-   12. TABLET + MOBILE
+   12. RESPONSIVE LAYOUT
 ===================================== */
 
 @media (max-width: 1100px) {
-  main { padding: 0 24px 80px; }
+
+  #right-toc {
+    width: 250px;
+    min-width: 250px;
+  }
+
+  main {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
 }
 
-@media (max-width: 900px) {
+@media (max-width: 850px) {
 
-  body { display: block; }
-
-  /* Sidebar becomes an off-canvas drawer */
-  aside#sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: min(300px, 85vw);
-    min-width: 0;
-    z-index: 300;
-    transform: translateX(-100%);
-    transition: transform .25s ease;
-    box-shadow: 0 0 30px var(--shadow);
+  #right-toc {
+    display: none;
   }
 
-  body.nav-open aside#sidebar { transform: translateX(0); }
-
-  .nav-overlay {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, .55);
-    z-index: 250;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .25s, visibility .25s;
+  main {
+    padding: 0 25px 70px;
   }
 
-  body.nav-open .nav-overlay {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  body.nav-open { overflow: hidden; }
-
-  .menu-btn { display: inline-block; }
-
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--bg);
-  }
-
-  html { scroll-padding-top: 70px; }
-
-  #right-toc { display: none; }
-
-  .back-to-top { right: 16px; }
 }
 
 @media (max-width: 720px) {
 
-  main { padding: 0 16px 70px; }
+  body {
+    flex-direction: column;
+  }
 
-  .topbar { min-height: 52px; }
-  .content { padding-top: 20px; }
+  aside {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    max-height: 300px;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
 
-  h1 { font-size: 26px; }
-  h2 { font-size: 21px; }
-  h3 { font-size: 18px; }
+  main {
+    padding: 0 16px 70px;
+  }
+
+  .topbar {
+    min-height: 52px;
+  }
+
+  .content {
+    padding-top: 20px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 21px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
 
   table {
     display: block;
     overflow-x: auto;
   }
+
 }
 
 
@@ -686,7 +595,9 @@ img {
 
 @media print {
 
-  @page { margin: 1.5cm; }
+  @page {
+    margin: 1.5cm;
+  }
 
   :root,
   html[data-theme="light"],
@@ -697,8 +608,6 @@ img {
     --border: #d0d7de;
     --code: #f6f8fa;
     --muted: #555555;
-    --blue: #0550ae;
-    --green: #1a7f37;
     color-scheme: light;
   }
 
@@ -712,14 +621,13 @@ img {
   .topbar,
   .copy-btn,
   .back-to-top,
-  .heading-anchor,
-  .nav-overlay,
-  .skip-link,
   #right-toc {
     display: none !important;
   }
 
-  main { padding: 0; }
+  main {
+    padding: 0;
+  }
 
   pre {
     white-space: pre-wrap;
@@ -727,16 +635,17 @@ img {
     overflow-x: visible;
   }
 
-  pre, blockquote, tr, img { break-inside: avoid; }
-  h1, h2, h3, h4 { break-after: avoid; }
-
-  /* Show link targets in the PDF */
-  .content a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: .85em;
-    color: #555;
-    overflow-wrap: anywhere;
+  pre,
+  blockquote,
+  tr,
+  img {
+    break-inside: avoid;
   }
+
+  h1, h2, h3, h4 {
+    break-after: avoid;
+  }
+
 }
 
 </style>
@@ -745,92 +654,87 @@ img {
 
 <body id="top">
 
-<a class="skip-link" href="#main">Skip to content</a>
-
 
 <!-- =====================================
      LEFT SIDEBAR
-     Optional front matter per page:
-       nav_order: 1        (lower = higher in menu)
-       nav_exclude: true   (hide page from menu)
 ===================================== -->
 
-<aside id="sidebar" aria-label="Site sidebar">
+<aside>
 
   <div class="sidebar-header">
-    <h2><a href="{{ '/' | relative_url }}">{{ site_name }}</a></h2>
-    <div class="sidebar-subtitle">Cybersecurity Knowledge Base</div>
+    <h2>CyberGrayMan</h2>
+
+    <div class="sidebar-subtitle">
+      Cybersecurity Knowledge Base
+    </div>
   </div>
 
-  <nav aria-label="Main navigation">
+  <div class="nav-heading">
+    Navigation
+  </div>
 
-    <div class="nav-heading">Navigation</div>
+  <ul>
 
-    {% assign by_order = site.html_pages | sort: "nav_order" %}
-    {% assign by_title = site.html_pages | sort: "title" %}
+    <li>
+      <a href="{{ '/' | relative_url }}"
+         {% if page.url == '/' %}class="active"{% endif %}>
+        <span class="nav-icon">⌂</span>
+        Home
+      </a>
+    </li>
 
-    <ul>
+    {% assign sorted_pages = site.html_pages | sort: "title" %}
 
-      <li>
-        <a href="{{ '/' | relative_url }}"
-           {% if page.url == '/' %}class="active" aria-current="page"{% endif %}>
-          <span class="nav-icon" aria-hidden="true">⌂</span>Home
-        </a>
-      </li>
+    {% for item in sorted_pages %}
 
-      {% for item in by_order %}
-        {% if item.nav_order and item.nav_exclude != true and item.name != "index.md" and item.name != "index.html" and item.name != "404.html" %}
-      <li>
-        <a href="{{ item.url | relative_url }}" {% if page.url == item.url %}class="active" aria-current="page"{% endif %}>
-          <span class="nav-icon" aria-hidden="true">{{ item.nav_icon | default: "▤" }}</span>{{ item.title | default: item.name }}
-        </a>
-      </li>
-        {% endif %}
-      {% endfor %}
+      {% unless item.name == "index.md"
+        or item.name == "index.html"
+        or item.name == "404.html" %}
 
-      {% for item in by_title %}
-        {% if item.nav_order == nil and item.nav_exclude != true and item.name != "index.md" and item.name != "index.html" and item.name != "404.html" %}
-      <li>
-        <a href="{{ item.url | relative_url }}" {% if page.url == item.url %}class="active" aria-current="page"{% endif %}>
-          <span class="nav-icon" aria-hidden="true">{{ item.nav_icon | default: "▤" }}</span>{{ item.title | default: item.name }}
-        </a>
-      </li>
-        {% endif %}
-      {% endfor %}
+        <li>
+          <a href="{{ item.url | relative_url }}"
+             {% if page.url == item.url %}class="active"{% endif %}>
+            <span class="nav-icon">▤</span>
+            {{ item.title | default: item.name }}
+          </a>
+        </li>
 
-    </ul>
+      {% endunless %}
 
-  </nav>
+    {% endfor %}
+
+  </ul>
 
   <div class="sidebar-footer">
-    {{ site_name }}<br>
+    CyberGrayMan<br>
     Cybersecurity | DFIR | CTF
   </div>
 
 </aside>
-
-<div class="nav-overlay" id="nav-overlay"></div>
 
 
 <!-- =====================================
      MAIN CONTENT
 ===================================== -->
 
-<main id="main" tabindex="-1">
+<main>
 
   <div class="topbar">
 
-    <button type="button"
-            id="menu-btn"
-            class="menu-btn"
-            aria-controls="sidebar"
-            aria-expanded="false">
-      ☰ Menu
-    </button>
-
     <div class="topbar-actions">
-      <button type="button" id="theme-toggle" class="theme-toggle">Light Mode</button>
-      <button type="button" id="print-page" class="print-btn">Print / PDF</button>
+
+      <button type="button"
+              id="theme-toggle"
+              class="theme-toggle">
+        Light Mode
+      </button>
+
+      <button type="button"
+              id="print-page"
+              class="print-btn">
+        Print / PDF
+      </button>
+
     </div>
 
   </div>
@@ -843,25 +747,29 @@ img {
 
 
 <!-- =====================================
-     RIGHT SIDE PAGE MAP
-     Tab to the strip to open it, then tab through the links.
+     RIGHT PERMANENT TOC
 ===================================== -->
 
 <nav id="right-toc" aria-label="On this page">
 
-  <div id="toc-indicator"
-       tabindex="0"
-       role="button"
-       aria-label="Show page sections"></div>
+  <div class="toc-title">
+    ON THIS PAGE
+  </div>
 
-  <div id="toc-panel">
-    <div class="toc-title">ON THIS PAGE</div>
-    <ul id="toc-links"></ul>
+  <ul id="toc-links"></ul>
+
+  <div id="toc-empty" hidden>
+    No section headings found.
   </div>
 
 </nav>
 
-<a href="#top" class="back-to-top">↑ Top</a>
+
+<!-- BACK TO TOP -->
+
+<a href="#top" class="back-to-top">
+  ↑ Top
+</a>
 
 
 <!-- =====================================
@@ -869,265 +777,200 @@ img {
 ===================================== -->
 
 <script>
-(function () {
-  'use strict';
 
-  /* ---------- 1. Theme ---------- */
+/* =====================================
+   1. DARK / LIGHT MODE
+===================================== */
 
-  var root = document.documentElement;
-  var toggleBtn = document.getElementById('theme-toggle');
+const toggleBtn = document.getElementById('theme-toggle');
 
-  function syncToggleLabel() {
-    toggleBtn.textContent =
-      root.getAttribute('data-theme') === 'dark' ? 'Light Mode' : 'Dark Mode';
-  }
+function syncToggleLabel() {
+
+  const dark =
+    document.documentElement.getAttribute('data-theme') === 'dark';
+
+  toggleBtn.textContent = dark ? 'Light Mode' : 'Dark Mode';
+
+}
+
+syncToggleLabel();
+
+toggleBtn.addEventListener('click', () => {
+
+  const current =
+    document.documentElement.getAttribute('data-theme');
+
+  const next = current === 'dark' ? 'light' : 'dark';
+
+  document.documentElement.setAttribute('data-theme', next);
+
+  localStorage.setItem('theme', next);
 
   syncToggleLabel();
 
-  toggleBtn.addEventListener('click', function () {
-    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch (e) {}
-    syncToggleLabel();
+});
+
+
+/* =====================================
+   2. PRINT / PDF
+===================================== */
+
+document.getElementById('print-page').addEventListener('click', () => {
+  window.print();
+});
+
+
+/* =====================================
+   3. COPY CODE BUTTONS
+===================================== */
+
+document.querySelectorAll('.content pre').forEach((pre) => {
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'code-wrapper';
+
+  pre.parentNode.insertBefore(wrapper, pre);
+  wrapper.appendChild(pre);
+
+  const btn = document.createElement('button');
+
+  btn.type = 'button';
+  btn.className = 'copy-btn';
+  btn.textContent = 'Copy';
+
+  btn.addEventListener('click', async () => {
+
+    try {
+
+      await navigator.clipboard.writeText(pre.innerText);
+
+      btn.textContent = 'Copied!';
+
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+      }, 1800);
+
+    } catch (error) {
+
+      btn.textContent = 'Copy failed';
+
+    }
+
   });
 
+  wrapper.appendChild(btn);
 
-  /* ---------- 2. Print ---------- */
-
-  document.getElementById('print-page').addEventListener('click', function () {
-    window.print();
-  });
+});
 
 
-  /* ---------- 3. Mobile drawer ---------- */
+/* =====================================
+   4. AUTOMATIC RIGHT TABLE OF CONTENTS
+   H2 AND H3 ONLY
+===================================== */
 
-  var menuBtn = document.getElementById('menu-btn');
-  var overlay = document.getElementById('nav-overlay');
-  var sidebar = document.getElementById('sidebar');
+const tocList = document.getElementById('toc-links');
+const tocEmpty = document.getElementById('toc-empty');
 
-  function setNav(open) {
-    document.body.classList.toggle('nav-open', open);
-    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+const headings = Array.from(
+  document.querySelectorAll('.content h2, .content h3')
+);
+
+const tocItems = [];
+
+headings.forEach((heading, index) => {
+
+  // Preserve existing heading IDs.
+
+  if (!heading.id) {
+    heading.id = 'section-' + index;
   }
 
-  menuBtn.addEventListener('click', function () {
-    setNav(!document.body.classList.contains('nav-open'));
+  const li = document.createElement('li');
+  const link = document.createElement('a');
+
+  link.href = '#' + heading.id;
+  link.textContent = heading.textContent.trim();
+
+  if (heading.tagName === 'H3') {
+    link.classList.add('toc-h3');
+  }
+
+  li.appendChild(link);
+  tocList.appendChild(li);
+
+  tocItems.push({
+    heading,
+    link
   });
 
-  overlay.addEventListener('click', function () { setNav(false); });
+});
 
-  sidebar.addEventListener('click', function (e) {
-    if (e.target.closest && e.target.closest('a')) setNav(false);
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') setNav(false);
-  });
-
-  window.addEventListener('resize', function () {
-    if (window.innerWidth > 900) setNav(false);
-  });
+if (headings.length === 0) {
+  tocEmpty.hidden = false;
+}
 
 
-  /* ---------- 4. Copy buttons on code blocks ---------- */
+/* =====================================
+   5. HIGHLIGHT CURRENT HEADING
+===================================== */
 
-  document.querySelectorAll('.content pre').forEach(function (pre) {
+if ('IntersectionObserver' in window && tocItems.length) {
 
-    var wrapper = document.createElement('div');
-    wrapper.className = 'code-wrapper';
-    pre.parentNode.insertBefore(wrapper, pre);
-    wrapper.appendChild(pre);
+  const observer = new IntersectionObserver(
+    (entries) => {
 
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'copy-btn';
-    btn.textContent = 'Copy';
+      entries.forEach(entry => {
 
-    btn.addEventListener('click', function () {
+        if (!entry.isIntersecting) return;
 
-      function done(text) {
-        btn.textContent = text;
-        setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
-      }
+        tocItems.forEach(item => {
+          item.link.classList.remove('active');
+        });
 
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(pre.innerText).then(
-          function () { done('Copied!'); },
-          function () { done('Copy failed'); }
+        const activeItem = tocItems.find(
+          item => item.heading === entry.target
         );
-      } else {
-        done('Copy failed');
-      }
 
-    });
+        if (activeItem) {
 
-    wrapper.appendChild(btn);
+          activeItem.link.classList.add('active');
 
-  });
+        }
 
+      });
 
-  /* ---------- 5. Headings: unique ids + permalink anchors ---------- */
-
-  var headings = Array.prototype.slice.call(
-    document.querySelectorAll('.content h2, .content h3')
+    },
+    {
+      rootMargin: '-12% 0px -75% 0px',
+      threshold: 0
+    }
   );
 
-  var usedIds = {};
-  document.querySelectorAll('[id]').forEach(function (el) { usedIds[el.id] = true; });
+  tocItems.forEach(item => {
+    observer.observe(item.heading);
+  });
 
-  function slugify(text) {
-    return text.toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .trim()
-      .replace(/\s+/g, '-') || 'section';
-  }
+}
 
-  headings.forEach(function (heading, index) {
 
-    if (!heading.id) {
-      var base = slugify(heading.textContent);
-      var id = base;
-      var n = 2;
-      while (usedIds[id]) { id = base + '-' + n++; }
-      heading.id = id;
-      usedIds[id] = true;
-    }
+/* =====================================
+   6. UPDATE TOC AFTER CLICK
+===================================== */
 
-    var anchor = document.createElement('a');
-    anchor.className = 'heading-anchor';
-    anchor.href = '#' + heading.id;
-    anchor.setAttribute('aria-label', 'Link to this section');
-    anchor.textContent = '#';
-    heading.appendChild(anchor);
+tocItems.forEach(item => {
+
+  item.link.addEventListener('click', () => {
+
+    tocItems.forEach(other => {
+      other.link.classList.remove('active');
+    });
+
+    item.link.classList.add('active');
 
   });
 
+});
 
-  /* ---------- 6. Right-side page map ---------- */
-
-  var rightToc = document.getElementById('right-toc');
-  var tocIndicator = document.getElementById('toc-indicator');
-  var tocPanel = document.getElementById('toc-panel');
-  var tocList = document.getElementById('toc-links');
-
-  var tocItems = [];
-
-  if (headings.length === 0) {
-    rightToc.hidden = true;
-  }
-
-  headings.forEach(function (heading) {
-
-    var label = heading.textContent.replace(/#\s*$/, '').trim();
-
-    var li = document.createElement('li');
-    var link = document.createElement('a');
-    link.href = '#' + heading.id;
-    link.textContent = label;
-    if (heading.tagName === 'H3') link.classList.add('toc-h3');
-    li.appendChild(link);
-    tocList.appendChild(li);
-
-    var marker = document.createElement('button');
-    marker.type = 'button';
-    marker.className = 'toc-marker';
-    marker.tabIndex = -1;                 // keyboard users use the panel links
-    marker.setAttribute('aria-label', label);
-    marker.title = label;
-    marker.addEventListener('click', function () {
-      heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    tocIndicator.appendChild(marker);
-
-    tocItems.push({ heading: heading, link: link, marker: marker });
-
-  });
-
-  // Cache heading positions; only re-measure when layout changes
-  var tops = [];
-
-  function measure() {
-    tops = tocItems.map(function (item) {
-      return item.heading.getBoundingClientRect().top + window.scrollY;
-    });
-  }
-
-  function getActiveIndex() {
-    var doc = document.documentElement;
-    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) {
-      return tocItems.length - 1;
-    }
-    var pos = window.scrollY + window.innerHeight * 0.30;
-    var active = 0;
-    for (var i = 0; i < tops.length; i++) {
-      if (tops[i] <= pos) active = i; else break;
-    }
-    return active;
-  }
-
-  function updatePageMap() {
-
-    if (!tocItems.length) return;
-
-    var activeIndex = getActiveIndex();
-
-    tocItems.forEach(function (item, index) {
-      var active = index === activeIndex;
-      item.marker.classList.toggle('active', active);
-      item.link.classList.toggle('active', active);
-      if (active) item.link.setAttribute('aria-current', 'location');
-      else item.link.removeAttribute('aria-current');
-    });
-
-    // Slide the compact marker group down the screen with reading progress
-    var vh = window.innerHeight;
-    var groupHeight = tocIndicator.offsetHeight;
-    var minTop = 15;
-    var maxTop = Math.max(minTop, vh - groupHeight - 15);
-    var progress = tocItems.length > 1 ? activeIndex / (tocItems.length - 1) : 0;
-    var newTop = minTop + (maxTop - minTop) * progress;
-
-    rightToc.style.top = newTop + 'px';
-
-    // Keep the expanded panel fully inside the viewport
-    var panelHeight = tocPanel.offsetHeight;
-    var desired = Math.min(Math.max(newTop, 10), vh - panelHeight - 10);
-    tocPanel.style.top = Math.max(desired, 10) - newTop + 'px';
-
-  }
-
-  var scheduled = false;
-
-  function schedule(remeasure) {
-    if (remeasure) measure();
-    if (scheduled) return;
-    scheduled = true;
-    requestAnimationFrame(function () {
-      updatePageMap();
-      scheduled = false;
-    });
-  }
-
-  window.addEventListener('scroll', function () { schedule(false); }, { passive: true });
-  window.addEventListener('resize', function () { schedule(true); });
-  window.addEventListener('load', function () { schedule(true); });
-
-  var contentEl = document.querySelector('.content');
-
-  if (contentEl && 'ResizeObserver' in window) {
-    new ResizeObserver(function () { schedule(true); }).observe(contentEl);
-  }
-
-  document.querySelectorAll('.content img').forEach(function (img) {
-    if (!img.complete) {
-      img.addEventListener('load', function () { schedule(true); });
-      img.addEventListener('error', function () { schedule(true); });
-    }
-  });
-
-  schedule(true);
-
-})();
 </script>
 
 </body>
