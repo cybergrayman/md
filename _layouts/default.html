@@ -1,300 +1,1103 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>{{ page.title | default: site.title | default: "CyberGrayMan" }}</title>
+
+  <!-- THEME INITIALIZATION -->
   <script>
-    (function() {
+    (function () {
       const saved = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const mode = saved || (prefersDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', mode);
+      const theme = saved || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
     })();
   </script>
+
   <style>
+
+    /* =====================================
+       1. THEME COLORS
+    ===================================== */
+
     :root {
-      --bg: #ffffff;
-      --fg: #1f2328;
-      --muted-bg: #8882;
-      --stripe-bg: #8881;
-      --border: #8884;
-      --border-strong: #8885;
-      color-scheme: light;
-    }
-    html[data-theme="dark"] {
-      --bg: #0d1117;
-      --fg: #e6edf3;
-      --muted-bg: #8883;
-      --stripe-bg: #8881;
-      --border: #8884;
-      --border-strong: #8886;
+      --bg: #18191d;
+      --sidebar: #191a1f;
+      --panel: #101114;
+      --fg: #f0f0f0;
+      --muted: #a1a1aa;
+      --border: #414147;
+      --green: #00c878;
+      --green-bg: #153127;
+      --blue: #00aaff;
+      --code: #111318;
       color-scheme: dark;
     }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font: 16px/1.6 system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      display: flex;
-      min-height: 100vh;
+
+    html[data-theme="light"] {
+      --bg: #ffffff;
+      --sidebar: #f6f7f9;
+      --panel: #f0f1f3;
+      --fg: #242424;
+      --muted: #666666;
+      --border: #d4d4d8;
+      --green: #008c59;
+      --green-bg: #dff5e9;
+      --blue: #0077bb;
+      --code: #f1f2f4;
+      color-scheme: light;
     }
-    aside {
-      width: 240px;
-      flex-shrink: 0;
-      padding: 24px 18px;
-      border-right: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
+
+    * {
       box-sizing: border-box;
     }
-    .sidebar-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 14px;
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 20px;
     }
-    aside h2 {
-      font-size: 1.05rem;
+
+    body {
       margin: 0;
-    }
-    .theme-toggle,
-    .print-btn {
-      padding: 4px 10px;
-      font-size: 0.78rem;
-      border: 1px solid var(--border-strong);
-      border-radius: 6px;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--fg);
-      cursor: pointer;
+      font: 15px/1.65 system-ui, -apple-system, sans-serif;
+      display: flex;
     }
-    .theme-toggle:hover,
-    .print-btn:hover {
-      border-color: var(--fg);
+
+
+    /* =====================================
+       2. LEFT SIDEBAR
+    ===================================== */
+
+    aside {
+      width: 283px;
+      min-width: 283px;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      padding: 25px 10px;
     }
+
+    .sidebar-header {
+      padding: 5px 12px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .sidebar-header h2 {
+      font-size: 19px;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .sidebar-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .nav-heading {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 10px 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     aside ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
+
     aside li {
-      margin-bottom: 10px;
+      margin-bottom: 4px;
     }
+
     aside a {
-      color: inherit;
+      display: block;
+      padding: 10px 13px;
+      border-radius: 5px;
+      color: var(--fg);
       text-decoration: none;
+      font-size: 14px;
+      transition: background .2s, color .2s;
     }
+
     aside a:hover {
-      text-decoration: underline;
+      background: var(--panel);
+      color: var(--blue);
     }
+
     aside a.active {
+      background: var(--green-bg);
+      color: var(--green);
       font-weight: 700;
-      text-decoration: underline;
     }
-    main {
-      flex: 1;
-      max-width: none;
-      width: 100%;
-      padding: 32px 40px 80px;
-      min-width: 0;
-      box-sizing: border-box;
+
+    .nav-icon {
+      display: inline-block;
+      width: 23px;
+      color: var(--muted);
     }
-    .page-actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 16px;
-    }
-    table {
-      width: 100%;
-      table-layout: auto;
-      border-collapse: collapse;
+
+    .nav-divider {
+      border: 0;
+      border-top: 1px solid var(--border);
       margin: 20px 0;
     }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      margin-top: 25px;
+      padding: 15px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* =====================================
+       3. MAIN CONTENT AREA
+    ===================================== */
+
+    main {
+      flex: 1;
+      min-width: 0;
+      padding: 0 40px 80px;
+    }
+
+    .topbar {
+      max-width: 1100px;
+      margin: 0 auto;
+      min-height: 57px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      gap: 15px;
+    }
+
+    .topbar-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-toggle,
+    .print-btn {
+      border: 0;
+      background: transparent;
+      color: var(--fg);
+      font-size: 13px;
+      cursor: pointer;
+      padding: 7px 10px;
+    }
+
+    .theme-toggle:hover,
+    .print-btn:hover {
+      color: var(--blue);
+    }
+
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-top: 25px;
+    }
+
+
+    /* =====================================
+       4. HEADINGS AND TEXT
+    ===================================== */
+
+    h1, h2, h3, h4 {
+      color: var(--fg);
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 27px;
+      margin-top: 0;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h2 {
+      font-size: 21px;
+      margin-top: 35px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      font-size: 17px;
+      margin-top: 27px;
+    }
+
+    h4 {
+      font-size: 15px;
+    }
+
+    p {
+      margin: 12px 0;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    strong {
+      color: var(--fg);
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 25px 0;
+    }
+
+
+    /* =====================================
+       5. LISTS
+    ===================================== */
+
+    .content ul,
+    .content ol {
+      padding-left: 25px;
+    }
+
+    .content li {
+      margin-bottom: 7px;
+    }
+
+    .content li::marker {
+      color: var(--muted);
+    }
+
+
+    /* =====================================
+       6. TABLES
+    ===================================== */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
     th, td {
-      border: 1px solid var(--border-strong);
-      padding: 8px 12px;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
       text-align: left;
       overflow-wrap: anywhere;
-      word-break: break-word;
     }
+
     th {
-      background: var(--muted-bg);
-      font-weight: 600;
+      background: var(--panel);
+      font-weight: 700;
     }
+
     tr:nth-child(even) {
-      background: var(--stripe-bg);
+      background: var(--panel);
     }
+
+    tr:hover {
+      background: var(--green-bg);
+    }
+
+
+    /* =====================================
+       7. CODE BLOCKS
+    ===================================== */
+
     .code-wrapper {
       position: relative;
+      margin: 18px 0;
     }
+
     pre {
-      padding: 14px;
-      overflow-x: auto;
+      background: var(--code);
+      border: 1px solid var(--border);
       border-radius: 6px;
-      background: var(--muted-bg);
+      padding: 17px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--fg);
     }
-    code { font-family: monospace; }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: .9em;
+    }
+
+    :not(pre) > code {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 5px;
+      color: var(--green);
+    }
+
     .copy-btn {
       position: absolute;
-      top: 8px;
-      right: 8px;
-      padding: 4px 8px;
-      font-size: 0.78rem;
-      border: 1px solid var(--border-strong);
-      border-radius: 4px;
-      background: var(--bg);
+      top: 9px;
+      right: 9px;
+      background: var(--sidebar);
+      border: 1px solid var(--border);
       color: var(--fg);
+      border-radius: 4px;
+      padding: 4px 9px;
+      font-size: 11px;
       cursor: pointer;
-      opacity: 0.85;
     }
+
     .copy-btn:hover {
-      opacity: 1;
-      border-color: var(--fg);
+      border-color: var(--green);
+      color: var(--green);
     }
+
+
+    /* =====================================
+       8. BLOCKQUOTES
+    ===================================== */
+
+    blockquote {
+      margin: 20px 0;
+      padding: 12px 18px;
+      border-left: 3px solid var(--green);
+      background: var(--panel);
+      color: var(--muted);
+    }
+
+
+    /* =====================================
+       9. IMAGES
+    ===================================== */
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+
+    /* =====================================
+       10. RIGHT SIDE COLLAPSIBLE TOC
+    ===================================== */
+
+    #right-toc {
+      position: fixed;
+      right: 0;
+      top: 12%;
+      z-index: 100;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    /* Vertical indicator lines */
+
+    #toc-indicator {
+      width: 45px;
+      padding: 10px 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    #toc-indicator span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: #00c878;
+      transition: width .2s;
+    }
+
+    #toc-indicator span:nth-child(n+4) {
+      background: #00aaff;
+    }
+
+    #right-toc:hover #toc-indicator span {
+      width: 34px;
+    }
+
+    /* Expanded navigation panel */
+
+    #toc-panel {
+      position: absolute;
+      right: 45px;
+      top: 0;
+      width: 340px;
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 18px;
+      background: var(--sidebar);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      box-shadow: 0 8px 25px #0005;
+
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(12px);
+
+      transition:
+        opacity .2s ease,
+        visibility .2s ease,
+        transform .2s ease;
+    }
+
+    #right-toc:hover #toc-panel,
+    #right-toc:focus-within #toc-panel {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    .toc-title {
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    #toc-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #toc-links li {
+      margin: 0;
+    }
+
+    #toc-links a {
+      display: block;
+      padding: 7px 5px;
+      color: var(--fg);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    #toc-links a:hover {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    #toc-links .toc-h3 {
+      padding-left: 20px;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    #toc-links a.active {
+      color: var(--green);
+      background: var(--green-bg);
+    }
+
+    /* Empty TOC */
+
+    #toc-empty {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* =====================================
+       11. BACK TO TOP
+    ===================================== */
+
     .back-to-top {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      right: 25px;
+      bottom: 22px;
       padding: 8px 14px;
-      border: 1px solid var(--border-strong);
-      border-radius: 6px;
-      background: var(--bg);
+      background: var(--panel);
+      border: 1px solid var(--border);
       color: var(--fg);
-      text-decoration: none;
-      font-size: 0.9rem;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 10;
     }
+
     .back-to-top:hover {
-      border-color: var(--fg);
+      border-color: var(--green);
+      color: var(--green);
+      text-decoration: none;
     }
+
+
+    /* =====================================
+       12. MOBILE RESPONSIVE
+    ===================================== */
+
     @media (max-width: 720px) {
-      body { flex-direction: column; }
+
+      body {
+        flex-direction: column;
+      }
+
       aside {
         width: 100%;
+        min-width: 0;
         height: auto;
-        position: static;
+        max-height: 300px;
+        position: relative;
         border-right: none;
         border-bottom: 1px solid var(--border);
       }
-      main { padding: 24px 20px 80px; }
+
+      main {
+        padding: 0 16px 70px;
+      }
+
+      .topbar {
+        min-height: 52px;
+      }
+
+      .content {
+        padding-top: 20px;
+      }
+
+      h1 {
+        font-size: 23px;
+      }
+
+      h2 {
+        font-size: 19px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      #right-toc {
+        display: none;
+      }
+
     }
+
+
+    /* =====================================
+       13. PRINT / SAVE AS PDF
+    ===================================== */
+
     @media print {
+
       @page {
         margin: 1.5cm;
       }
+
       :root,
+      html[data-theme="light"],
       html[data-theme="dark"] {
         --bg: #ffffff;
         --fg: #1f2328;
-        --muted-bg: #f6f8fa;
-        --stripe-bg: #f6f8fa;
+        --panel: #f6f8fa;
         --border: #d0d7de;
-        --border-strong: #d0d7de;
+        --code: #f6f8fa;
+        --muted: #555555;
         color-scheme: light;
       }
+
       body {
         display: block;
-        min-height: auto;
-        background: #ffffff;
-        color: #1f2328;
+        background: white;
+        color: black;
       }
+
       aside,
-      .page-actions,
+      .topbar,
       .copy-btn,
-      .back-to-top {
+      .back-to-top,
+      #right-toc {
         display: none !important;
       }
+
       main {
         padding: 0;
       }
+
       pre {
         white-space: pre-wrap;
-        word-break: break-word;
+        overflow-wrap: anywhere;
         overflow-x: visible;
-        border: 1px solid var(--border);
       }
+
+      pre,
+      blockquote,
+      tr,
+      img {
+        break-inside: avoid;
+      }
+
       h1, h2, h3, h4 {
         break-after: avoid;
       }
-      pre, blockquote, tr, img {
-        break-inside: avoid;
-      }
+
     }
+
   </style>
 </head>
+
+
 <body id="top">
+
+
+  <!-- =====================================
+       LEFT SIDEBAR
+  ====================================== -->
+
   <aside>
+
     <div class="sidebar-header">
+
       <h2>CyberGrayMan</h2>
-      <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">Dark</button>
+
+      <div class="sidebar-subtitle">
+        Cybersecurity Knowledge Base
+      </div>
+
     </div>
+
+
+    <div class="nav-heading">
+      Navigation
+    </div>
+
+
     <ul>
+
       <li>
-        <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a>
+        <a href="{{ '/' | relative_url }}"
+           {% if page.url == '/' %}class="active"{% endif %}>
+
+          <span class="nav-icon">⌂</span>
+          Home
+
+        </a>
       </li>
+
+
       {% assign sorted_pages = site.html_pages | sort: "title" %}
+
       {% for item in sorted_pages %}
-        {% unless item.name == "index.md" or item.name == "index.html" or item.name == "404.html" %}
+
+        {% unless item.name == "index.md"
+          or item.name == "index.html"
+          or item.name == "404.html" %}
+
           <li>
-            <a href="{{ item.url | relative_url }}" {% if page.url == item.url %}class="active"{% endif %}>
+
+            <a href="{{ item.url | relative_url }}"
+               {% if page.url == item.url %}class="active"{% endif %}>
+
+              <span class="nav-icon">▤</span>
+
               {{ item.title | default: item.name }}
+
             </a>
+
           </li>
+
         {% endunless %}
+
       {% endfor %}
+
     </ul>
+
+
+    <div class="sidebar-footer">
+
+      CyberGrayMan<br>
+      Cybersecurity | DFIR | CTF
+
+    </div>
+
   </aside>
 
+
+
+  <!-- =====================================
+       MAIN CONTENT
+  ====================================== -->
+
   <main>
-    <div class="page-actions">
-      <button type="button" id="print-page" class="print-btn">Print / Save as PDF</button>
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+      <div class="topbar-title">
+
+        {{ page.title | default: site.title | default: "CyberGrayMan" }}
+
+      </div>
+
+
+      <div class="topbar-actions">
+
+        <button
+          type="button"
+          id="theme-toggle"
+          class="theme-toggle">
+
+          Light Mode
+
+        </button>
+
+
+        <button
+          type="button"
+          id="print-page"
+          class="print-btn">
+
+          Print / PDF
+
+        </button>
+
+      </div>
+
     </div>
-    {{ content }}
+
+
+
+    <!-- MARKDOWN CONTENT -->
+
+    <div class="content">
+
+      {{ content }}
+
+    </div>
+
+
   </main>
 
-  <a href="#top" class="back-to-top">↑ Top</a>
+
+
+  <!-- =====================================
+       RIGHT SIDE TABLE OF CONTENTS
+  ====================================== -->
+
+  <nav id="right-toc" aria-label="Page contents">
+
+
+    <!-- Collapsed indicator lines -->
+
+    <div id="toc-indicator" aria-label="Open page navigation">
+
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </div>
+
+
+    <!-- Expanded TOC panel -->
+
+    <div id="toc-panel">
+
+      <div class="toc-title">
+        ON THIS PAGE
+      </div>
+
+      <ul id="toc-links"></ul>
+
+      <div id="toc-empty" hidden>
+        No headings found on this page.
+      </div>
+
+    </div>
+
+  </nav>
+
+
+
+  <!-- =====================================
+       BACK TO TOP
+  ====================================== -->
+
+  <a href="#top" class="back-to-top">
+    ↑ Top
+  </a>
+
+
+
+  <!-- =====================================
+       JAVASCRIPT
+  ====================================== -->
 
   <script>
-    const toggleBtn = document.getElementById('theme-toggle');
+
+
+    /* =====================================
+       1. DARK / LIGHT MODE
+    ===================================== */
+
+    const toggleBtn =
+      document.getElementById('theme-toggle');
+
+
     function syncToggleLabel() {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      toggleBtn.textContent = isDark ? 'Light' : 'Dark';
+
+      const dark =
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
+      toggleBtn.textContent =
+        dark ? 'Light Mode' : 'Dark Mode';
+
     }
+
+
     syncToggleLabel();
 
+
     toggleBtn.addEventListener('click', () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      const next = isDark ? 'light' : 'dark';
+
+      const current =
+        document.documentElement.getAttribute('data-theme');
+
+      const next =
+        current === 'dark' ? 'light' : 'dark';
+
       document.documentElement.setAttribute('data-theme', next);
+
       localStorage.setItem('theme', next);
+
       syncToggleLabel();
+
     });
 
-    document.getElementById('print-page').addEventListener('click', () => {
-      window.print();
-    });
 
-    document.querySelectorAll('pre').forEach((pre) => {
+
+    /* =====================================
+       2. PRINT / SAVE AS PDF
+    ===================================== */
+
+    document
+      .getElementById('print-page')
+      .addEventListener('click', () => {
+
+        window.print();
+
+      });
+
+
+
+    /* =====================================
+       3. COPY CODE BUTTONS
+    ===================================== */
+
+    document.querySelectorAll('.content pre').forEach((pre) => {
+
       const wrapper = document.createElement('div');
+
       wrapper.className = 'code-wrapper';
+
       pre.parentNode.insertBefore(wrapper, pre);
+
       wrapper.appendChild(pre);
 
+
       const btn = document.createElement('button');
+
       btn.type = 'button';
+
       btn.className = 'copy-btn';
+
       btn.textContent = 'Copy';
+
+
       btn.addEventListener('click', async () => {
-        const text = pre.innerText;
-        await navigator.clipboard.writeText(text);
-        btn.textContent = 'Copied!';
-        setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+
+        try {
+
+          await navigator.clipboard.writeText(pre.innerText);
+
+          btn.textContent = 'Copied!';
+
+          setTimeout(() => {
+
+            btn.textContent = 'Copy';
+
+          }, 1800);
+
+        } catch (error) {
+
+          btn.textContent = 'Copy failed';
+
+        }
+
       });
+
+
       wrapper.appendChild(btn);
+
     });
+
+
+
+    /* =====================================
+       4. AUTOMATIC RIGHT SIDE TABLE OF CONTENTS
+    ===================================== */
+
+    const tocList =
+      document.getElementById('toc-links');
+
+    const tocEmpty =
+      document.getElementById('toc-empty');
+
+
+    if (tocList) {
+
+      const headings = document.querySelectorAll(
+        '.content h1, .content h2, .content h3'
+      );
+
+
+      headings.forEach((heading, index) => {
+
+        // Preserve existing heading IDs.
+        // Generate an ID only when missing.
+
+        if (!heading.id) {
+
+          heading.id = 'section-' + index;
+
+        }
+
+
+        // Create navigation item
+
+        const li = document.createElement('li');
+
+        const link = document.createElement('a');
+
+
+        link.href = '#' + heading.id;
+
+        link.textContent = heading.textContent.trim();
+
+
+        // Indent H3 headings
+
+        if (heading.tagName === 'H3') {
+
+          link.classList.add('toc-h3');
+
+        }
+
+
+        // Navigate to heading
+
+        link.addEventListener('click', () => {
+
+          document.querySelectorAll('#toc-links a')
+            .forEach(a => a.classList.remove('active'));
+
+          link.classList.add('active');
+
+        });
+
+
+        li.appendChild(link);
+
+        tocList.appendChild(li);
+
+      });
+
+
+      // Show empty message if no headings exist
+
+      if (headings.length === 0) {
+
+        tocEmpty.hidden = false;
+
+      }
+
+
+      /* =====================================
+         5. ACTIVE HEADING HIGHLIGHT
+      ===================================== */
+
+      if ('IntersectionObserver' in window) {
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+
+            entries.forEach(entry => {
+
+              if (entry.isIntersecting) {
+
+                document.querySelectorAll('#toc-links a')
+                  .forEach(a => a.classList.remove('active'));
+
+
+                const active = document.querySelector(
+                  '#toc-links a[href="#' + entry.target.id + '"]'
+                );
+
+
+                if (active) {
+
+                  active.classList.add('active');
+
+                }
+
+              }
+
+            });
+
+          },
+          {
+            rootMargin: '-10% 0px -80% 0px'
+          }
+        );
+
+
+        headings.forEach(heading => {
+
+          observer.observe(heading);
+
+        });
+
+      }
+
+    }
+
+
   </script>
+
 </body>
 </html>
